@@ -652,6 +652,26 @@ body, body[data-theme="custom"] {
 }</code></pre></div>
         <p>For the complete starter, open <code>%LOCALAPPDATA%\Blossom\themes\custom-ui.example.css</code> — it is always kept in sync with the app (v3 marker).</p>
 
+        <h2>Markdown &amp; code formatting</h2>
+        <p>Docs can mix regular HTML with a <code>.doc-markdown</code> block for rich text. Inline code like <code>--accent</code>, bare hex values like #e891a8 in prose, and fenced blocks all pick up Blossom styling automatically.</p>
+        <div class="doc-markdown">### Sample theme notes
+
+Use **bold**, _italic_, and `inline tokens` when describing a palette.
+
+The default rose accent is `#e891a8` on shells around `#0a0809`.
+
+```css
+:root {
+  --accent: #e891a8;
+  --bg-root: #0a0809;
+  --border-accent: rgba(232, 145, 168, 0.3);
+}
+```
+
+- Semi-transparent borders use `rgba()` — swatches show a checkerboard when alpha is below 100%.
+- Light colors like `#ffffff` get a stronger outline so they stay visible on dark docs chrome.
+</div>
+
         <h2>Sharing themes</h2>
         <ol>
           <li>Export your <code>.css</code> file (no personal paths or secrets — it is pure styling).</li>

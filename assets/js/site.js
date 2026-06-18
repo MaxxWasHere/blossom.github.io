@@ -123,6 +123,7 @@
 
   const HLJS_BASE =
     "https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build";
+  const MARKED_URL = "https://cdn.jsdelivr.net/npm/marked@15.0.7/marked.min.js";
   const HLJS_LANGS = ["css", "javascript", "bash", "json"];
 
   const HEX_COLOR =
@@ -156,6 +157,61 @@
       await Promise.all(
         HLJS_LANGS.map((lang) => loadScript(`${HLJS_BASE}/languages/${lang}.min.js`))
       );
+    });
+  }
+
+  function loadMarked() {
+    if (window.marked?.parse) return Promise.resolve();
+    return loadScript(MARKED_URL);
+  }
+
+  function highlightCodeText(text, lang) {
+    const language = lang || detectLanguage(text);
+    if (!window.hljs || language === "plaintext") return text;
+    try {
+      if (window.hljs.getLanguage(language)) {
+        return window.hljs.highlight(text, { language }).value;
+      }
+    } catch {
+      /* keep raw text */
+    }
+    return text;
+  }
+
+  let markedConfigured = false;
+
+  function configureMarked() {
+    if (markedConfigured || !window.marked?.use) return;
+    markedConfigured = true;
+
+    window.marked.use({
+      gfm: true,
+      breaks: false,
+      renderer: {
+        code({ text, lang }) {
+          const language = (lang || detectLanguage(text)).toLowerCase();
+          const langClass = HLJS_LANGS.includes(language) ? language : detectLanguage(text);
+          const html = highlightCodeText(text, langClass);
+          return `<div class="doc-code-wrap" data-lang="${langClass}"><pre><code class="language-${langClass}">${html}</code></pre></div>`;
+        },
+      },
+    });
+  }
+
+  function initMarkdown() {
+    if (!window.marked?.parse) return;
+
+    configureMarked();
+
+    document.querySelectorAll(".doc-markdown, .md-content").forEach((el) => {
+      if (el.dataset.markdownParsed === "1") return;
+
+      const source = el.dataset.markdown ?? el.textContent ?? "";
+      if (!source.trim()) return;
+
+      el.innerHTML = window.marked.parse(source.trim());
+      el.dataset.markdownParsed = "1";
+      el.classList.add("doc-markdown-rendered");
     });
   }
 
@@ -205,20 +261,94 @@
     });
   }
 
-  function createColorSwatch(color) {
+  function expandHex(hex) {
+    const raw = hex.replace("#", "");
+    if (raw.length === 3) {
+      return `#${raw[0]}${raw[0]}${raw[1]}${raw[1]}${raw[2]}${raw[2]}`;
+    }
+    if (raw.length === 4) {
+      return `#${raw[0]}${raw[0]}${raw[1]}${raw[1]}${raw[2]}${raw[2]}${raw[3]}${raw[3]}`;
+    }
+    return hex;
+  }
+
+  function parseColorChannels(color) {
+    const hex = color.trim();
+    if (/^#/.test(hex)) {
+      const expanded = expandHex(hex).replace("#", "");
+      if (expanded.length === 6) {
+        return {
+          r: parseInt(expanded.slice(0, 2), 16),
+          g: parseInt(expanded.slice(2, 4), 16),
+          b: parseInt(expanded.slice(4, 6), 16),
+          a: 1,
+        };
+      }
+      if (expanded.length === 8) {
+        return {
+          r: parseInt(expanded.slice(0, 2), 16),
+          g: parseInt(expanded.slice(2, 4), 16),
+          b: parseInt(expanded.slice(4, 6), 16),
+          a: parseInt(expanded.slice(6, 8), 16) / 255,
+        };
+      }
+    }
+
+    const rgba = hex.match(
+      /^rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)(?:\s*,\s*([\d.]+))?\s*\)$/i
+    );
+    if (rgba) {
+      return {
+        r: Math.min(255, Number(rgba[1])),
+        g: Math.min(255, Number(rgba[2])),
+        b: Math.min(255, Number(rgba[3])),
+        a: rgba[4] === undefined ? 1 : Math.max(0, Math.min(1, Number(rgba[4]))),
+      };
+    }
+
+    return null;
+  }
+
+  function colorHasAlpha(color) {
+    const channels = parseColorChannels(color);
+    return Boolean(channels && channels.a < 0.995);
+  }
+
+  function colorIsLight(color) {
+    const channels = parseColorChannels(color);
+    if (!channels) return false;
+    const { r, g, b, a } = channels;
+    if (a < 0.35) return false;
+    const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    return lum > 0.78;
+  }
+
+  function createColorChip(color) {
+    const chip = document.createElement("span");
+    chip.className = "doc-color-chip";
+
     const swatch = document.createElement("span");
     swatch.className = "doc-color-swatch";
     swatch.style.setProperty("--swatch-color", color);
+    if (colorHasAlpha(color)) swatch.classList.add("doc-color-swatch--alpha");
+    if (colorIsLight(color)) swatch.classList.add("doc-color-swatch--light");
     swatch.setAttribute("role", "img");
     swatch.setAttribute("aria-label", `Color preview ${color}`);
     swatch.title = color;
-    return swatch;
+
+    const label = document.createElement("span");
+    label.className = "doc-color-hex";
+    label.textContent = color;
+
+    chip.appendChild(swatch);
+    chip.appendChild(label);
+    return chip;
   }
 
   function shouldSkipColorNode(node) {
     const el = node.parentElement;
     if (!el) return true;
-    if (el.closest(".doc-color-swatch, script, style, .doc-lang-badge")) return true;
+    if (el.closest(".doc-color-chip, script, style, .doc-lang-badge")) return true;
     if (el.closest(".selector-col")) return true;
     if (el.closest("a[href^='#']")) return true;
     return false;
@@ -244,8 +374,7 @@
         frag.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
       }
       const color = match[0];
-      frag.appendChild(document.createTextNode(color));
-      frag.appendChild(createColorSwatch(color));
+      frag.appendChild(createColorChip(color));
       lastIndex = pattern.lastIndex;
     }
 
@@ -413,15 +542,20 @@
 
   function initCodeEnhancements() {
     initCodeBlocks();
-    loadHighlightJs()
+    Promise.all([loadHighlightJs(), loadMarked()])
       .then(() => {
+        initMarkdown();
         initSyntaxHighlighting();
         initColorSwatches();
         initCopyButtons();
+        initHeadingAnchors();
       })
       .catch(() => {
+        initMarkdown();
+        initSyntaxHighlighting();
         initColorSwatches();
         initCopyButtons();
+        initHeadingAnchors();
       });
   }
 
