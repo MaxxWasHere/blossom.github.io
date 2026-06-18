@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sarpanch:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/blossom.github.io/assets/css/site.css">
 </head>
-<body data-page="getting-started">
+<body data-page="getting-started" data-toc>
   <div class="doc-overlay" id="doc-overlay"></div>
   <div class="doc-app">
     <aside class="doc-sidebar" id="doc-sidebar" aria-label="Documentation navigation"></aside>
@@ -21,36 +21,58 @@
       </header>
       <article class="doc-content">
         <h1>Getting Started</h1>
-        <p class="doc-lead">Install Blossom, calibrate once, then turn on the automations you want.</p>
+        <p class="doc-lead">Install once, calibrate your screen positions, then flip on the automations you want. After that, Blossom mostly runs itself.</p>
 
         <h2>Install</h2>
         <ol>
           <li>Download <strong>Blossom.exe</strong> from <a href="https://github.com/MaxxWasHere/blossom/releases">stable releases</a> (or <strong>Blossom-beta.exe</strong> for beta).</li>
-          <li>Run it once. The bootstrapper syncs the full app into <code>%LOCALAPPDATA%\Blossom\</code>.</li>
-          <li>Keep using the same launcher — it checks for updates on each run.</li>
+          <li>Run the launcher once. You will see a branded splash while it syncs the full app into <code>%LOCALAPPDATA%\Blossom\app\{channel}\</code> and optional runtime components (OpenCV, WinOCR).</li>
+          <li>Keep using the <strong>same launcher shortcut</strong> — it checks GitHub for updates every start, including deliberate rollbacks on your release track.</li>
         </ol>
-        <p>Beta builds show an activation screen on first launch. Get a key from the Discord bot (<code>/getkey</code>).</p>
+        <div class="doc-tip">
+          <p>Beta builds show an activation screen on first launch. Get a key from the Discord bot with <code>/getkey</code>. One key per device.</p>
+        </div>
 
         <h2>First-time setup</h2>
         <ol>
-          <li><strong>Calibrate</strong> — open <strong>Macro Calibrations</strong> and follow <a href="calibrations.html">Calibrations</a> or <a href="https://youtu.be/s2S7Bncx9ns">this video</a>.</li>
-          <li><strong>Macro tab</strong> — turn on merchant, potions, fishing, and other modules you want.</li>
-          <li><strong>Webhook tab</strong> (optional) — paste a Discord webhook URL for biome or merchant pings.</li>
-          <li><strong>Appearance</strong> (optional) — pick a built-in theme or Custom UI CSS (<a href="theming.html">Theming</a>).</li>
+          <li><strong>Calibrate</strong> — open <strong>Macro Calibrations</strong> in the sidebar. Follow <a href="calibrations.html">Calibrations</a> or watch <a href="https://youtu.be/s2S7Bncx9ns">the video tutorial</a>. Without calibrations, OCR and clicks will miss.</li>
+          <li><strong>Misc settings</strong> — paste your <strong>Private Server link</strong> if you use Auto Reconnect or webhook rejoin fields.</li>
+          <li><strong>Macro tab</strong> — enable merchant, potions, fishing, anti-AFK, and anything else you need. Each module has its own toggles and timings.</li>
+          <li><strong>Webhook tab</strong> (optional) — add Discord webhook URLs for biome or merchant pings.</li>
+          <li><strong>Appearance</strong> (optional) — pick Pink, OLED, Sakura, or a Custom UI skin. See <a href="theming.html">Theming</a>.</li>
         </ol>
 
-        <h2>Config location</h2>
-        <p>Settings, paths, potion files, and custom themes live under:</p>
+        <h2>Where files live</h2>
+        <p>Settings, calibration JSON, potion files, walk paths, and custom themes all live under:</p>
         <div class="doc-code-wrap"><pre><code>%LOCALAPPDATA%\Blossom\</code></pre></div>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Folder / file</th><th>Purpose</th></tr></thead>
+            <tbody>
+              <tr><td><code>app\stable\</code> or <code>app\beta\</code></td><td>Versioned Blossom payload (managed by launcher)</td></tr>
+              <tr><td><code>themes\</code></td><td>Custom UI <code>.css</code> files and <code>custom-ui.example.css</code></td></tr>
+              <tr><td><code>paths\</code></td><td>Recorded walk paths (<code>fishing.json</code>, <code>char_align.json</code>, etc.)</td></tr>
+              <tr><td>Config JSON</td><td>Macro toggles, webhook URLs, appearance — preserved across updates</td></tr>
+            </tbody>
+          </table>
+        </div>
 
         <h2>Run the macro</h2>
-        <p>Use <strong>Start</strong> in the header bar (or your configured hotkey). Run Blossom as administrator if clicks do not register in Roblox.</p>
+        <p>Click <strong>Start</strong> in the header bar (or your configured hotkey). Blossom focuses Roblox and runs your enabled modules in a loop.</p>
+        <ul>
+          <li>Run Blossom as <strong>administrator</strong> if clicks do not register in Roblox.</li>
+          <li>Keep the same <strong>resolution and UI scale</strong> you used when calibrating — fullscreen is recommended.</li>
+          <li>Starting the macro no longer shrinks a maximized Roblox window; focus restore only happens when the game was minimized.</li>
+        </ul>
+
+        <h2>Runtime components</h2>
+        <p>Fishing vision needs <strong>OpenCV</strong>. Merchant, Eden, and biome-selector OCR use <strong>WinOCR</strong> (Windows OCR language pack en-US). Blossom downloads missing components on startup and shows progress in the runtime card — launch is not blocked while they sync.</p>
 
         <h2>Next steps</h2>
         <ul>
-          <li><a href="calibrations.html">Calibrations</a> — required for reliable detection</li>
-          <li><a href="theming.html">Theming</a> — personalize the UI</li>
-          <li><a href="troubleshooting.html">Troubleshooting</a> — if something does not work</li>
+          <li><a href="calibrations.html">Calibrations</a> — merchant Set Max, fishing dock, reconnect button</li>
+          <li><a href="theming.html">Theming</a> — built-in palettes and Custom UI CSS</li>
+          <li><a href="troubleshooting.html">Troubleshooting</a> — when something does not work</li>
         </ul>
       </article>
     </div>

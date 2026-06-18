@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sarpanch:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/blossom.github.io/assets/css/site.css">
 </head>
-<body data-page="credits">
+<body data-page="credits" data-toc>
   <div class="doc-overlay" id="doc-overlay"></div>
   <div class="doc-app">
     <aside class="doc-sidebar" id="doc-sidebar" aria-label="Documentation navigation"></aside>
@@ -21,15 +21,15 @@
       </header>
       <article class="doc-content">
         <h1>Credits</h1>
-        <p class="doc-lead">Blossom is free, open source, and builds on work from several people and projects.</p>
-        <p>If you redistribute or fork the code, keep upstream attribution as required by <a href="https://github.com/MaxxWasHere/blossom/blob/main/LICENSE.txt">Apache 2.0</a>. See also <a href="https://github.com/MaxxWasHere/blossom/blob/main/NOTICE.md">NOTICE.md</a>.</p>
+        <p class="doc-lead">Blossom is free, open source, and stands on work from several people and projects. Thank you to everyone who tested, reported bugs, donated, or shared calibrations.</p>
+        <p>If you redistribute or fork the code, keep upstream attribution as required by <a href="https://github.com/MaxxWasHere/blossom/blob/main/LICENSE.txt">Apache 2.0</a>. See also <a href="https://github.com/MaxxWasHere/blossom/blob/main/NOTICE.md">NOTICE.md</a> in the repo.</p>
 
         <div class="doc-card cornered doc-credits-hero"><span class="corner-bl" aria-hidden="true"></span><span class="corner-br" aria-hidden="true"></span>
           <div class="doc-credits-hero-inner">
             <img src="https://raw.githubusercontent.com/MaxxWasHere/blossom/main/assets/blossom.png" alt="Blossom" width="72" height="72" />
             <div>
               <h3>Blossom</h3>
-              <p>An independent fork of the Noteab / Coteab macro for <strong>Sol's RNG</strong>. Same core goals — biomes, merchants, potions, fishing — with Blossom's own UI, Python backend, releases, and Discord integrations.</p>
+              <p>An independent fork of the Noteab / Coteab macro for <strong>Sol's RNG</strong>. Same core goals — biomes, merchants, potions, fishing — with Blossom's own sakura UI, Python backend, bootstrap launchers, and Discord integrations.</p>
             </div>
           </div>
         </div>
@@ -41,27 +41,30 @@
               <tr><td><strong>Maintainer</strong></td><td><a href="https://github.com/MaxxWasHere">MaxxWasHere</a></td></tr>
               <tr><td><strong>Repository</strong></td><td><a href="https://github.com/MaxxWasHere/blossom">github.com/MaxxWasHere/blossom</a></td></tr>
               <tr><td><strong>License</strong></td><td><a href="https://github.com/MaxxWasHere/blossom/blob/main/LICENSE.txt">Apache License 2.0</a></td></tr>
+              <tr><td><strong>Docs site</strong></td><td><a href="https://maxwashere.github.io/blossom.github.io/">blossom.github.io</a></td></tr>
             </tbody>
           </table>
         </div>
 
         <h3>What Blossom adds</h3>
         <ul>
-          <li>Sakura branding, sidebar layout, and Appearance / Custom UI theming</li>
-          <li>Macro Calibrations hub, fishing mode, reconnect flow, and merchant Limbo return</li>
+          <li>Sakura branding, sidebar layout, Appearance tab with eight built-in themes and Custom UI CSS</li>
+          <li>Macro Calibrations hub, fishing mode, Auto Reconnect, merchant Limbo return, prep/fishing failsafes</li>
           <li>Potion crafting, rotation, and Start / Stop hotkeys</li>
-          <li>Config under <code>%LOCALAPPDATA%\Blossom\</code></li>
+          <li>Config under <code>%LOCALAPPDATA%\Blossom\</code> — settings, paths, themes</li>
           <li>Discord webhooks and biome notifier from the Python backend</li>
-          <li>Built-in updater, beta licensing, and bootstrap launcher (<code>Blossom.exe</code>)</li>
+          <li>Fixed-name bootstrap launchers, built-in updater, beta licensing with HWID</li>
+          <li>WinOCR for merchant/Eden/biome OCR; OpenCV for fishing vision</li>
+          <li>Command palette (Ctrl+K), launch overlay, runtime component sync</li>
         </ul>
 
         <h2>Lineage (upstream macros)</h2>
         <h3>1. Noteab biome macro — NotWindyZ</h3>
         <p>Earliest public biome-macro foundation. Apache 2.0. <a href="https://github.com/NotWindyZ/Noteab-Macro">github.com/NotWindyZ/Noteab-Macro</a></p>
         <h3>2. Coteab macro — Vapure (xVapure)</h3>
-        <p>The macro most players run today. Direct basis for Blossom. <a href="https://github.com/xVapure/Noteab-Macro">github.com/xVapure/Noteab-Macro</a></p>
+        <p>The macro most players ran before Blossom. Direct basis for merchant OCR, log detection, and calibrations. <a href="https://github.com/xVapure/Noteab-Macro">github.com/xVapure/Noteab-Macro</a></p>
         <h3>3. Blossom — MaxxWasHere</h3>
-        <p>This fork. UI and backend maintained separately. <a href="https://github.com/MaxxWasHere/blossom">github.com/MaxxWasHere/blossom</a></p>
+        <p>This fork. UI and backend maintained separately with its own release channels. <a href="https://github.com/MaxxWasHere/blossom">github.com/MaxxWasHere/blossom</a></p>
 
         <h2>People &amp; assets</h2>
         <div class="doc-table-wrap">
@@ -77,23 +80,25 @@
         </div>
 
         <h2>Community</h2>
-        <p>Thanks to testers, donors, and bug reporters. The in-app <strong>Donations</strong> tab lists Roblox gamepass supporters.</p>
+        <p>Thanks to testers, donors, and bug reporters. The in-app <strong>Donations</strong> tab lists Roblox gamepass supporters. Share Custom UI themes and calibration presets with credit if you publish them.</p>
 
         <h2>Third-party software</h2>
         <div class="doc-table-wrap">
           <table class="doc-table">
-            <thead><tr><th>Package</th><th>Use</th></tr></thead>
+            <thead><tr><th>Package</th><th>Use in Blossom</th></tr></thead>
             <tbody>
-              <tr><td><a href="https://github.com/r0x0r/pywebview">pywebview</a></td><td>WebView2 UI shell</td></tr>
-              <tr><td><a href="https://github.com/asweigart/pyautogui">PyAutoGUI</a></td><td>Input automation</td></tr>
-              <tr><td><a href="https://opencv.org/">OpenCV</a></td><td>Fishing / vision</td></tr>
-              <tr><td><a href="https://github.com/JaidedAI/EasyOCR">EasyOCR</a></td><td>Merchant OCR</td></tr>
-              <tr><td><a href="https://lucide.dev/">Lucide</a> (ISC)</td><td>Vector icons</td></tr>
-              <tr><td><a href="https://pyinstaller.org/">PyInstaller</a></td><td>Windows builds</td></tr>
+              <tr><td><a href="https://github.com/r0x0r/pywebview">pywebview</a></td><td>WebView2 desktop UI shell</td></tr>
+              <tr><td><a href="https://github.com/asweigart/pyautogui">PyAutoGUI</a></td><td>Mouse/keyboard automation</td></tr>
+              <tr><td><a href="https://opencv.org/">OpenCV</a></td><td>Fishing bite / vision detection</td></tr>
+              <tr><td>Windows WinOCR</td><td>Merchant, Eden, biome-selector text (replaces Tesseract in current builds)</td></tr>
+              <tr><td><a href="https://github.com/JaidedAI/EasyOCR">EasyOCR</a></td><td>Legacy / auxiliary OCR paths where applicable</td></tr>
+              <tr><td><a href="https://lucide.dev/">Lucide</a> (ISC)</td><td>Vector icons (<code>.blsm-vec</code>)</td></tr>
+              <tr><td><a href="https://fonts.google.com/specimen/Sarpanch">Sarpanch</a>, <a href="https://fonts.google.com/specimen/Inter">Inter</a></td><td>UI typography (Google Fonts)</td></tr>
+              <tr><td><a href="https://pyinstaller.org/">PyInstaller</a></td><td>Windows release builds</td></tr>
             </tbody>
           </table>
         </div>
-        <p>Full list: <a href="https://github.com/MaxxWasHere/blossom/blob/main/requirements.txt">requirements.txt</a></p>
+        <p>Full dependency list: <a href="https://github.com/MaxxWasHere/blossom/blob/main/requirements.txt">requirements.txt</a>. Custom UI themes that ship custom fonts must respect those fonts' licenses.</p>
       </article>
     </div>
   </div>

@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Theming — Blossom Docs</title>
-  <meta name="description" content="Built-in themes and Custom UI CSS for Blossom.">
+  <meta name="description" content="Complete guide to Blossom built-in themes and Custom UI CSS — tokens, selectors, sharing, and troubleshooting.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sarpanch:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/blossom.github.io/assets/css/site.css">
 </head>
-<body data-page="theming">
+<body data-page="theming" data-toc>
   <div class="doc-overlay" id="doc-overlay"></div>
   <div class="doc-app">
     <aside class="doc-sidebar" id="doc-sidebar" aria-label="Documentation navigation"></aside>
@@ -21,55 +21,620 @@
       </header>
       <article class="doc-content">
         <h1>Theming</h1>
-        <p class="doc-lead">Blossom supports <strong>built-in themes</strong> and <strong>Custom UI</strong> (your own CSS).</p>
+        <p class="doc-lead">Make Blossom feel like yours. Pick a built-in palette in seconds, or drop in a single CSS file and reskin every surface in the app.</p>
 
-        <h2>Built-in themes</h2>
-        <p><strong>Appearance</strong> tab → pick Pink, Dark, Light, OLED, Sakura, Midnight, Forest, etc. Choice is saved in config.</p>
-        <ul>
-          <li><strong>UI scale</strong> and <strong>window size</strong> (Small / Medium / Large / Custom)</li>
-          <li><strong>Reduce motion</strong> — disables heavy animations</li>
-          <li><strong>Always on top</strong> (Settings)</li>
-        </ul>
+        <div class="doc-callout">
+          <p><strong>Two paths, one Appearance tab.</strong> Built-in themes swap colors, accents, and light/dark behavior. <strong>Custom UI</strong> loads your own <code>.css</code> from <code>%LOCALAPPDATA%\Blossom\themes\</code> and overrides the whole look — sidebar, cards, modals, loading overlay, calibrations hub, and more.</p>
+        </div>
 
-        <h2>Custom UI (CSS)</h2>
+        <h2>Overview</h2>
+        <p>Everything lives under <strong>Appearance</strong> in the sidebar. Blossom saves your choices to config immediately (theme, accent, Custom UI file, UI scale, window size, reduce motion).</p>
+
+        <div class="doc-card-grid">
+          <div class="doc-card cornered"><span class="corner-bl" aria-hidden="true"></span><span class="corner-br" aria-hidden="true"></span>
+            <h3>Built-in themes</h3>
+            <p>Eight palettes plus <strong>Match system</strong>. Fast, safe, and great if you only want a different mood — pink sakura, true-black OLED, mossy forest, and so on.</p>
+          </div>
+          <div class="doc-card cornered"><span class="corner-bl" aria-hidden="true"></span><span class="corner-br" aria-hidden="true"></span>
+            <h3>Custom UI</h3>
+            <p>One CSS file restyles the existing app DOM. Override design tokens for a quick recolor, or target every documented selector for a full reskin.</p>
+          </div>
+        </div>
+
+        <div class="doc-tip">
+          <p><strong>Custom UI wins when active.</strong> Your built-in theme choice is kept as a fallback — set Custom UI to <strong>None</strong> to use it again. While Custom UI is on, the theme grid and accent swatches dim in the Appearance card.</p>
+        </div>
+
+        <p>JSON theme files from older builds are retired. Your <code>.json</code> files stay in the themes folder for reference; Blossom falls back to your saved built-in theme and shows a one-time notice.</p>
+
+        <h2>Quick start — Custom UI in 5 steps</h2>
         <ol>
-          <li>Open <code>%LOCALAPPDATA%\Blossom\themes\</code></li>
-          <li>Copy <code>custom-ui.example.css</code> → <code>my-theme.css</code></li>
-          <li>Edit CSS (tokens and selectors — the example file is fully commented)</li>
-          <li><strong>Appearance</strong> → <strong>Custom UI</strong> → select your file → <strong>Refresh</strong></li>
+          <li>Open Blossom → <strong>Appearance</strong> → click <strong>Open themes folder</strong> (or browse to <code>%LOCALAPPDATA%\Blossom\themes\</code>).</li>
+          <li>Copy <code>custom-ui.example.css</code> to a new name, e.g. <code>my-skin.css</code>. Never edit the example file directly — Blossom may refresh it.</li>
+          <li>Edit your copy: start with the <strong>§1 design tokens</strong> block for a fast recolor, or work through the selector sections for a full reskin.</li>
+          <li>Back in Appearance → <strong>Custom UI</strong>, pick your file from the dropdown.</li>
+          <li>Click <strong>Refresh</strong>. Your CSS applies immediately and persists across restarts.</li>
         </ol>
 
-        <h3>Rules</h3>
-        <ul>
-          <li><strong>CSS only</strong> — no HTML, no JavaScript, no <code>@import</code>, no remote <code>url()</code></li>
-          <li>Custom UI overrides built-in theme colors when active</li>
-          <li>Cannot add new tabs or macro features — styling only</li>
-        </ul>
-
-        <h3>Design tokens (common)</h3>
+        <h2>Built-in themes</h2>
+        <p class="doc-search-hint">Use your browser’s find (Ctrl+F) to search theme names or tokens in the tables below.</p>
         <div class="doc-table-wrap">
           <table class="doc-table">
-            <thead><tr><th>Token</th><th>Purpose</th></tr></thead>
+            <thead><tr><th>Theme</th><th><code>data-theme</code></th><th>What it changes</th></tr></thead>
             <tbody>
-              <tr><td><code>--accent</code></td><td>Primary accent color</td></tr>
-              <tr><td><code>--bg-root</code>, <code>--bg-sidebar</code>, <code>--bg-card</code></td><td>Backgrounds</td></tr>
-              <tr><td><code>--text-primary</code>, <code>--text-secondary</code>, <code>--text-muted</code></td><td>Text</td></tr>
-              <tr><td><code>--border</code>, <code>--radius-md</code></td><td>Borders and corners</td></tr>
+              <tr>
+                <td><strong>Match system</strong></td>
+                <td><code>system</code></td>
+                <td>Follows Windows light/dark. Dark mode uses pink-accent neutrals; light mode switches to bright surfaces with readable dark text.</td>
+              </tr>
+              <tr>
+                <td><strong>Pink</strong> <span class="doc-pill">default dark</span></td>
+                <td><code>pink</code></td>
+                <td>Rose accent (<code>#e891a8</code>) on warm near-black shells — the classic Blossom look. Same palette as this docs site.</td>
+              </tr>
+              <tr>
+                <td><strong>Dark</strong></td>
+                <td><code>dark</code></td>
+                <td>Neutral zinc grays, silver accent. No pink tint — good if you want a minimal dark tool UI.</td>
+              </tr>
+              <tr>
+                <td><strong>Light</strong></td>
+                <td><code>light</code></td>
+                <td>Bright zinc/white surfaces, magenta accent, dark readable text on cards and sidebar. Sets <code>html.blsm-light-ui</code>.</td>
+              </tr>
+              <tr>
+                <td><strong>OLED</strong></td>
+                <td><code>oled</code></td>
+                <td>True black (<code>#000</code>) root/sidebar/main for AMOLED panels. Soft pink accent, hairline borders, no glow shadows, rounded corners.</td>
+              </tr>
+              <tr>
+                <td><strong>Sakura</strong></td>
+                <td><code>sakura</code></td>
+                <td>Warm light theme — cream and petal-pink surfaces, deep rose accent, generous border radii. Also sets <code>html.blsm-light-ui</code>.</td>
+              </tr>
+              <tr>
+                <td><strong>Midnight</strong></td>
+                <td><code>midnight</code></td>
+                <td>Deep navy shells with indigo accent (<code>#818cf8</code>). Cool blue-gray text hierarchy.</td>
+              </tr>
+              <tr>
+                <td><strong>Forest</strong></td>
+                <td><code>forest</code></td>
+                <td>Mossy dark greens with emerald accent (<code>#4cbd87</code>). Earthy, low-glow card shadows.</td>
+              </tr>
             </tbody>
           </table>
         </div>
-        <p>Full list and DOM selectors: open <code>custom-ui.example.css</code> in your themes folder (created on first Custom UI use).</p>
 
-        <h3>HTML hints for advanced skins</h3>
+        <h3>Also in Appearance</h3>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Setting</th><th>Options</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Accent override</strong></td><td>Rose, Violet, Ocean, Emerald, Amber, Crimson, or custom hex</td><td>Recalculates <code>--accent-*</code> tokens on top of the active theme. Ignored while Custom UI is active.</td></tr>
+              <tr><td><strong>UI scale</strong></td><td>Compact (0.9×), Normal, Large (1.1×), X-Large (1.2×)</td><td>Zooms the WebView content via <code>.window-frame</code>.</td></tr>
+              <tr><td><strong>Window size</strong></td><td>Small 860×540, Medium 980×640, Large 1200×760, Custom</td><td>Resizable with native edge handles; minimum 860×540.</td></tr>
+              <tr><td><strong>Reduce motion</strong></td><td>On / off</td><td>Adds <code>html.blsm-reduce-motion</code> — disables heavy animations.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Custom UI deep dive</h2>
+        <p>Custom UI is <strong>CSS only</strong>. Blossom injects your stylesheet as a <code>&lt;style id="blsm-custom-ui"&gt;</code> tag. On startup, cached CSS applies before the first paint so you do not flash the default pink theme.</p>
+
+        <h3>What Custom UI can do</h3>
         <ul>
-          <li><code>html.blsm-custom-ui-active</code> — Custom UI is on</li>
-          <li><code>html.blsm-light-ui</code> — light palette hint</li>
-          <li><code>html.blsm-reduce-motion</code> — user disabled motion</li>
+          <li>Override every design token (<code>--accent</code>, <code>--bg-card</code>, radii, fonts, shadows).</li>
+          <li>Restyle any documented selector — sidebar, header, cards, modals, loading overlay, calibrations hub, webhooks table, runtime sync card.</li>
+          <li>Layout tweaks on the current DOM: flex order, grid, gaps, <code>display:none</code> (visual hide only), pseudo-element decorations.</li>
+          <li>Background images via <code>data:</code> URLs embedded in CSS (remote URLs are blocked).</li>
+          <li>Page-specific overrides with <code>.page-content[data-blossom-page="Macro"]</code> or <code>html.blsm-page-macro-calibrations</code>.</li>
         </ul>
 
+        <h3>What Custom UI cannot do</h3>
+        <ul>
+          <li>Add or remove sidebar tabs, macro features, or settings sections.</li>
+          <li>Inject HTML, JavaScript, or React components.</li>
+          <li>Replace the app shell with a totally different UI structure — that requires a Blossom fork.</li>
+        </ul>
+
+        <div class="doc-warning">
+          <p><strong>Files are sanitized on load.</strong> Unsafe CSS is rejected entirely (see <a href="#rules-security">Rules &amp; security</a>). Max file size is <strong>512 KB</strong>. Only <code>.css</code> files in the themes folder are listed — not <code>*.example.css</code>.</p>
+        </div>
+
+        <p>The authoritative template is <code>custom-ui.example.css</code> (v3) in your themes folder. Blossom creates it on first Custom UI use. The sections below mirror every § block from that file.</p>
+
+        <h2>Design tokens</h2>
+        <p>Set these on <code>body</code> or <code>body[data-theme="custom"]</code>. Most components read tokens — changing tokens alone can reskin the entire app.</p>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Token</th><th>Typical use</th><th>Example (Pink default)</th></tr></thead>
+            <tbody>
+              <tr><td><code>--bg-root</code></td><td>Outermost app background, loading overlay base</td><td><code>#0a0809</code></td></tr>
+              <tr><td><code>--bg-sidebar</code></td><td>Sidebar, title bar, header bar</td><td><code>#100c0e</code></td></tr>
+              <tr><td><code>--bg-main</code></td><td>Main content area behind cards</td><td><code>#0d090b</code></td></tr>
+              <tr><td><code>--bg-card</code></td><td>Card and panel backgrounds</td><td><code>#161014</code></td></tr>
+              <tr><td><code>--bg-card-hover</code></td><td>Hover states (sidebar items, cards)</td><td><code>#1c1519</code></td></tr>
+              <tr><td><code>--card-bg</code></td><td>Alias for <code>--bg-card</code> (legacy)</td><td><code>var(--bg-card)</code></td></tr>
+              <tr><td><code>--bg-secondary</code></td><td>Secondary surfaces (alias)</td><td><code>var(--bg-card)</code></td></tr>
+              <tr><td><code>--shadow-card</code></td><td>Card box shadow</td><td><code>0 2px 12px rgba(0,0,0,0.3)</code></td></tr>
+              <tr><td><code>--bg-input</code></td><td>Text fields, dropdown triggers</td><td><code>#120e10</code></td></tr>
+              <tr><td><code>--bg-input-focus</code></td><td>Focused input background</td><td><code>#1a1418</code></td></tr>
+              <tr><td><code>--accent</code></td><td>Primary brand color — toggles, accents, active icons</td><td><code>#e891a8</code></td></tr>
+              <tr><td><code>--accent-dim</code></td><td>Darker accent for borders on buttons</td><td><code>#c46d88</code></td></tr>
+              <tr><td><code>--accent-text</code></td><td>Accent-colored readable text</td><td><code>#f5c6d4</code></td></tr>
+              <tr><td><code>--accent-glow</code></td><td>Soft accent fill (selected dropdown option)</td><td><code>rgba(232,145,168,0.15)</code></td></tr>
+              <tr><td><code>--border-accent</code></td><td>Accent-tinted borders</td><td><code>rgba(232,145,168,0.3)</code></td></tr>
+              <tr><td><code>--shadow-glow</code></td><td>Accent outer glow on cards/nav</td><td><code>0 0 20px rgba(232,145,168,0.08)</code></td></tr>
+              <tr><td><code>--text-on-accent</code></td><td>Text on filled accent buttons</td><td><code>#ffffff</code></td></tr>
+              <tr><td><code>--success</code></td><td>Start button, positive status</td><td><code>#22c55e</code></td></tr>
+              <tr><td><code>--success-dim</code></td><td>Darker success variant</td><td><code>#16a34a</code></td></tr>
+              <tr><td><code>--danger</code></td><td>Stop button, errors</td><td><code>#ef4444</code></td></tr>
+              <tr><td><code>--danger-dim</code></td><td>Darker danger variant</td><td><code>#dc2626</code></td></tr>
+              <tr><td><code>--warning</code></td><td>Warnings, cautions</td><td><code>#f59e0b</code></td></tr>
+              <tr><td><code>--text-primary</code></td><td>Headings, primary body text</td><td><code>#ece8ea</code></td></tr>
+              <tr><td><code>--text-secondary</code></td><td>Labels, nav items</td><td><code>#a8a0a4</code></td></tr>
+              <tr><td><code>--text-muted</code></td><td>Hints, banners, section labels</td><td><code>#6e6468</code></td></tr>
+              <tr><td><code>--border</code></td><td>Default borders</td><td><code>#241a1e</code></td></tr>
+              <tr><td><code>--border-hover</code></td><td>Hover/focus borders, scrollbar thumb</td><td><code>#32242a</code></td></tr>
+              <tr><td><code>--border-color</code></td><td>Alias for <code>--border</code></td><td><code>var(--border)</code></td></tr>
+              <tr><td><code>--radius-sm</code></td><td>Inputs, small controls</td><td><code>0px</code> (Pink) — OLED/Sakura use rounded values</td></tr>
+              <tr><td><code>--radius-md</code></td><td>Sidebar items, segments</td><td><code>0px</code></td></tr>
+              <tr><td><code>--radius-lg</code></td><td>Cards</td><td><code>0px</code></td></tr>
+              <tr><td><code>--radius-xl</code></td><td>Large panels, modals</td><td><code>0px</code></td></tr>
+              <tr><td><code>--transition</code></td><td>Default transition timing</td><td><code>0.2s cubic-bezier(0.4,0,0.2,1)</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Also set <code>color</code>, <code>background</code>, and <code>font-family</code> on the same rule block for global typography.</p>
+
+        <h2>HTML &amp; document hints</h2>
+        <p>These classes and attributes are set on <code>&lt;html&gt;</code> or <code>&lt;body&gt;</code> — useful for light skins, motion, and page-specific CSS.</p>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Selector / attribute</th><th>When active</th><th>Use in Custom UI</th></tr></thead>
+            <tbody>
+              <tr><td><code>html.blsm-custom-ui-active</code></td><td>Custom UI file selected</td><td>Style fallback notes; Appearance card dims built-in pickers</td></tr>
+              <tr><td><code>html.blsm-light-ui</code></td><td>Light, Sakura, or system-in-light-mode</td><td>Override tokens for readable dark-on-light text</td></tr>
+              <tr><td><code>html.blsm-reduce-motion</code></td><td>Reduce motion enabled</td><td>Disable or simplify animations in your skin</td></tr>
+              <tr><td><code>body[data-theme="pink|dark|light|oled|sakura|midnight|forest|system|custom"]</code></td><td>Always (visual theme key)</td><td><code>custom</code> while Custom UI is active; built-in key stored as fallback</td></tr>
+              <tr><td><code>html.blsm-page-macro-calibrations</code></td><td>Macro Calibrations tab</td><td>Hide legacy calibration cards; style hub only</td></tr>
+              <tr><td><code>html.blsm-biome-webhooks-active</code></td><td>Webhook / biome notifier tab</td><td>Page-specific webhook hub styling</td></tr>
+              <tr><td><code>.page-content[data-blossom-page="…"]</code></td><td>Per sidebar route</td><td>Tab-only overrides, e.g. <code>"Macro"</code>, <code>"Webhook"</code>, <code>"Macro Calibrations"</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Selector reference</h2>
+        <p class="doc-search-hint">Every selector below comes from <code>custom-ui.example.css</code> §1–§20. Search by class name or section number.</p>
+
+        <h3>§1 — Design tokens (<code>body</code>)</h3>
+        <p>See the design tokens table above. Target <code>body, body[data-theme="custom"] { … }</code>.</p>
+
+        <h3>§2 — Window shell</h3>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Selector</th><th>Element</th></tr></thead>
+            <tbody>
+              <tr><td class="selector-col">.window-frame</td><td>Outer WebView frame; UI scale zoom target</td></tr>
+              <tr><td class="selector-col">.titlebar</td><td>Custom window title bar</td></tr>
+              <tr><td class="selector-col">.coteab-injected-titlebar</td><td>Legacy title bar alias (upstream Coteab)</td></tr>
+              <tr><td class="selector-col">.titlebar-btn</td><td>Window chrome button base</td></tr>
+              <tr><td class="selector-col">.titlebar-btn.minimize</td><td>Minimize button</td></tr>
+              <tr><td class="selector-col">.titlebar-btn.maximize</td><td>Maximize / restore button</td></tr>
+              <tr><td class="selector-col">.titlebar-btn.close</td><td>Close button</td></tr>
+              <tr><td class="selector-col">.blsm-window-resize</td><td>Native resize handle (edge)</td></tr>
+              <tr><td class="selector-col">.blsm-window-resize-root</td><td>Resize handle container on <code>html</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>§3 — Launch / download overlay</h3>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Selector</th><th>Element</th></tr></thead>
+            <tbody>
+              <tr><td class="selector-col">#blossom-loading-overlay</td><td>Full-frame startup overlay (ID)</td></tr>
+              <tr><td class="selector-col">.blossom-loading-overlay</td><td>Same overlay (class)</td></tr>
+              <tr><td class="selector-col">.blossom-loading-card</td><td>Center card on overlay</td></tr>
+              <tr><td class="selector-col">.blossom-loading-brand</td><td>Logo / brand area</td></tr>
+              <tr><td class="selector-col">.blossom-loading-message</td><td>Status text line</td></tr>
+              <tr><td class="selector-col">.blossom-loading-spinner</td><td>Animated spinner</td></tr>
+              <tr><td class="selector-col">.blossom-loading-progress</td><td>Download progress bar</td></tr>
+              <tr><td class="selector-col">.blossom-loading-aurora</td><td>Pink aurora backdrop effect</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>§4 — Sidebar</h3>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Selector</th><th>Element</th></tr></thead>
+            <tbody>
+              <tr><td class="selector-col">.sidebar</td><td>Left navigation column</td></tr>
+              <tr><td class="selector-col">.sidebar-brand</td><td>Logo + title block</td></tr>
+              <tr><td class="selector-col">.sidebar-brand h1</td><td>“Blossom” wordmark</td></tr>
+              <tr><td class="selector-col">.sidebar-brand .version</td><td>Version string under title</td></tr>
+              <tr><td class="selector-col">.sidebar-nav</td><td>Nav list container</td></tr>
+              <tr><td class="selector-col">.sidebar-section-label</td><td>Grouped section header (e.g. “Macro”)</td></tr>
+              <tr><td class="selector-col">.sidebar-group</td><td>Group wrapper for nav items</td></tr>
+              <tr><td class="selector-col">.sidebar-item</td><td>Single nav link / tab</td></tr>
+              <tr><td class="selector-col">.sidebar-item.active</td><td>Currently selected tab</td></tr>
+              <tr><td class="selector-col">.sidebar-item .icon</td><td>Legacy icon slot</td></tr>
+              <tr><td class="selector-col">.sidebar-footer</td><td>Bottom footer (by-line, links)</td></tr>
+              <tr><td class="selector-col">.sidebar-footer .by-line</td><td>Author / credit line</td></tr>
+              <tr><td class="selector-col">.nav-item</td><td>Legacy alias — prefer <code>.sidebar-item</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>§5 — Top header bar</h3>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Selector</th><th>Element</th></tr></thead>
+            <tbody>
+              <tr><td class="selector-col">.header-bar</td><td>Top bar with Start/Stop</td></tr>
+              <tr><td class="selector-col">.header-left</td><td>Left cluster (status, label)</td></tr>
+              <tr><td class="selector-col">.header-right</td><td>Right cluster (pin, dropdown)</td></tr>
+              <tr><td class="selector-col">.btn-start</td><td>Green Start macro button</td></tr>
+              <tr><td class="selector-col">.btn-stop</td><td>Red Stop macro button</td></tr>
+              <tr><td class="selector-col">.pin-btn</td><td>Always-on-top pin toggle</td></tr>
+              <tr><td class="selector-col">.blossom-macro-btn-label</td><td>Macro status label in header</td></tr>
+              <tr><td class="selector-col">.header-bar .blossom-dropdown</td><td>Status dropdown in header</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>§6 — Main content &amp; routes</h3>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Selector</th><th>Element</th></tr></thead>
+            <tbody>
+              <tr><td class="selector-col">.page-content</td><td>Active tab content wrapper</td></tr>
+              <tr><td class="selector-col">.main-content</td><td>Main area alias</td></tr>
+              <tr><td class="selector-col">.page-header</td><td>Tab title block</td></tr>
+              <tr><td class="selector-col">.page-header h2</td><td>Tab heading</td></tr>
+              <tr><td class="selector-col">.page-header p</td><td>Tab subtitle / description</td></tr>
+              <tr><td class="selector-col">.fade-in</td><td>Enter animation wrapper</td></tr>
+              <tr><td class="selector-col">.info-banner</td><td>Informational banner text</td></tr>
+              <tr><td class="selector-col">#root</td><td>React mount point</td></tr>
+              <tr><td class="selector-col">.page-content[data-blossom-page="Macro"]</td><td>Macro tab only</td></tr>
+              <tr><td class="selector-col">.page-content[data-blossom-page="Webhook"]</td><td>Webhook tab only</td></tr>
+              <tr><td class="selector-col">.page-content[data-blossom-page="Macro Calibrations"]</td><td>Calibrations tab only</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>§7 — Cards &amp; injected panels</h3>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Selector</th><th>Element</th></tr></thead>
+            <tbody>
+              <tr><td class="selector-col">.card</td><td>Settings / macro panel card</td></tr>
+              <tr><td class="selector-col">.card-header</td><td>Card title row</td></tr>
+              <tr><td class="selector-col">.card-header h3</td><td>Card heading</td></tr>
+              <tr><td class="selector-col">.card-header p</td><td>Card subtitle</td></tr>
+              <tr><td class="selector-col">.card-icon</td><td>Icon in card header</td></tr>
+              <tr><td class="selector-col">.corner-bracket.tl</td><td>Decorative corner (top-left) on macro cards</td></tr>
+              <tr><td class="selector-col">.corner-bracket.tr</td><td>Top-right corner bracket</td></tr>
+              <tr><td class="selector-col">.corner-bracket.bl</td><td>Bottom-left corner bracket</td></tr>
+              <tr><td class="selector-col">.corner-bracket.br</td><td>Bottom-right corner bracket</td></tr>
+              <tr><td class="selector-col">#blsm-appearance-card</td><td>Appearance settings card (injected)</td></tr>
+              <tr><td class="selector-col">#blsm-cal-hub</td><td>Unified Macro Calibrations hub</td></tr>
+              <tr><td class="selector-col">#blsm-biome-webhooks-hub</td><td>Biome notifier / webhooks hub</td></tr>
+              <tr><td class="selector-col">#blossom-runtime-card</td><td>OpenCV / WinOCR sync card</td></tr>
+              <tr><td class="selector-col">.blsm-appearance-card</td><td>Appearance card (class alias)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>§8 — Forms, inputs &amp; toggles</h3>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Selector</th><th>Element</th></tr></thead>
+            <tbody>
+              <tr><td class="selector-col">.form-group</td><td>Label + input wrapper</td></tr>
+              <tr><td class="selector-col">.form-label</td><td>Field label</td></tr>
+              <tr><td class="selector-col">.form-input</td><td>Text / number input</td></tr>
+              <tr><td class="selector-col">.form-hint</td><td>Helper text under fields</td></tr>
+              <tr><td class="selector-col">.toggle</td><td>Toggle wrapper</td></tr>
+              <tr><td class="selector-col">.toggle-row</td><td>Toggle + label row</td></tr>
+              <tr><td class="selector-col">.toggle-switch</td><td>Switch track container</td></tr>
+              <tr><td class="selector-col">.toggle-slider</td><td>Switch thumb / slider</td></tr>
+              <tr><td class="selector-col">textarea.form-input</td><td>Multiline text areas</td></tr>
+              <tr><td class="selector-col">select.form-input</td><td>Native selects (where still used)</td></tr>
+              <tr><td class="selector-col">input[type="checkbox"]</td><td>Checkbox inputs</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>§9 — Buttons</h3>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Selector</th><th>Element</th></tr></thead>
+            <tbody>
+              <tr><td class="selector-col">.btn</td><td>Generic button base</td></tr>
+              <tr><td class="selector-col">.btn-accent</td><td>Primary accent action</td></tr>
+              <tr><td class="selector-col">.btn-secondary</td><td>Secondary / neutral button</td></tr>
+              <tr><td class="selector-col">.btn-danger</td><td>Destructive action (when used)</td></tr>
+              <tr><td class="selector-col">.blsm-save-feedback-btn</td><td>Save feedback control</td></tr>
+              <tr><td class="selector-col">.blsm-rt-btn</td><td>Runtime sync action button</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>§10 — Custom dropdowns</h3>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Selector</th><th>Element</th></tr></thead>
+            <tbody>
+              <tr><td class="selector-col">.blossom-dropdown</td><td>Dropdown root</td></tr>
+              <tr><td class="selector-col">.blossom-dropdown-trigger</td><td>Clickable closed state</td></tr>
+              <tr><td class="selector-col">.blossom-dropdown-label</td><td>Selected value label</td></tr>
+              <tr><td class="selector-col">.blossom-dropdown-chevron</td><td>Open/close chevron icon</td></tr>
+              <tr><td class="selector-col">.blossom-dropdown-menu</td><td>Options panel</td></tr>
+              <tr><td class="selector-col">.blossom-dropdown-menu--portal</td><td>Portaled menu (fixed position)</td></tr>
+              <tr><td class="selector-col">.blossom-dropdown-list</td><td>Scrollable option list</td></tr>
+              <tr><td class="selector-col">.blossom-dropdown-option</td><td>Single option row</td></tr>
+              <tr><td class="selector-col">.blossom-dropdown-option.is-selected</td><td>Currently selected option</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>§11 — Calibrations hub</h3>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Selector</th><th>Element</th></tr></thead>
+            <tbody>
+              <tr><td class="selector-col">#blsm-cal-hub</td><td>Hub root container</td></tr>
+              <tr><td class="selector-col">.blsm-cal-tab-nav</td><td>Horizontal tab strip</td></tr>
+              <tr><td class="selector-col">.blsm-cal-tab</td><td>Calibration category tab</td></tr>
+              <tr><td class="selector-col">.blsm-cal-tab.is-active</td><td>Active calibration tab</td></tr>
+              <tr><td class="selector-col">.blsm-cal-mark-row</td><td>Calibration mark / click row</td></tr>
+              <tr><td class="selector-col">.blsm-cal-step-row</td><td>Step instruction row</td></tr>
+              <tr><td class="selector-col">.blsm-mouse-cal-card</td><td>Mouse position calibration card</td></tr>
+              <tr><td class="selector-col">.blsm-cal-preset-card</td><td>Community preset import card</td></tr>
+              <tr><td class="selector-col">.blsm-cal-hint-in-hub</td><td>Hint banner inside hub</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>§12 — Biome notifier / webhooks</h3>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Selector</th><th>Element</th></tr></thead>
+            <tbody>
+              <tr><td class="selector-col">#blsm-biome-webhooks-hub</td><td>Unified webhook configuration hub</td></tr>
+              <tr><td class="selector-col">.blsm-legacy-biome-config-card</td><td>Hidden legacy card (do not style visible)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Webhook table rows use inline grid in React — style via <code>#blsm-biome-webhooks-hub .card</code> descendants.</p>
+
+        <h3>§13 — Runtime components card</h3>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Selector</th><th>Element</th></tr></thead>
+            <tbody>
+              <tr><td class="selector-col">#blossom-runtime-card</td><td>Runtime sync card root</td></tr>
+              <tr><td class="selector-col">.blsm-rt-card</td><td>Card wrapper; <code>data-state="installed|missing|downloading"</code></td></tr>
+              <tr><td class="selector-col">.blsm-rt-body</td><td>Card body content</td></tr>
+              <tr><td class="selector-col">.blsm-rt-status</td><td>Component status text</td></tr>
+              <tr><td class="selector-col">.blsm-rt-progress</td><td>Download progress bar</td></tr>
+              <tr><td class="selector-col">.blsm-rt-message</td><td>Detail / error message</td></tr>
+              <tr><td class="selector-col">.blsm-rt-actions</td><td>Button row</td></tr>
+              <tr><td class="selector-col">.blsm-rt-btn</td><td>Install / retry button</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>§14 — Appearance card (injected)</h3>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Selector</th><th>Element</th></tr></thead>
+            <tbody>
+              <tr><td class="selector-col">#blsm-appearance-card</td><td>Appearance card root</td></tr>
+              <tr><td class="selector-col">.blsm-appearance-card</td><td>Class alias</td></tr>
+              <tr><td class="selector-col">.blsm-app-section</td><td>Section block (theme, scale, Custom UI)</td></tr>
+              <tr><td class="selector-col">.blsm-theme-grid</td><td>Built-in theme picker grid</td></tr>
+              <tr><td class="selector-col">.blsm-theme-card</td><td>Single theme tile button</td></tr>
+              <tr><td class="selector-col">.blsm-accent-swatch</td><td>Accent color preset swatch</td></tr>
+              <tr><td class="selector-col">.blsm-seg</td><td>Segmented control container</td></tr>
+              <tr><td class="selector-col">.blsm-seg-btn</td><td>Segment button (scale, window size)</td></tr>
+              <tr><td class="selector-col">.blsm-custom-ui-select</td><td>Custom UI file dropdown</td></tr>
+              <tr><td class="selector-col">.blsm-theme-fallback-note</td><td>Note shown while Custom UI is active</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>§15 — Modals &amp; overlays</h3>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Selector</th><th>Element</th></tr></thead>
+            <tbody>
+              <tr><td class="selector-col">.blsm-license-overlay</td><td>Beta activation gate backdrop</td></tr>
+              <tr><td class="selector-col">.blsm-license-card</td><td>License entry card</td></tr>
+              <tr><td class="selector-col">.blsm-license-input</td><td>License key input</td></tr>
+              <tr><td class="selector-col">.blsm-license-actions</td><td>Activate / help buttons</td></tr>
+              <tr><td class="selector-col">.blsm-license-status</td><td>Activation status message</td></tr>
+              <tr><td class="selector-col">.blsm-license-hwid</td><td>Hardware ID display</td></tr>
+              <tr><td class="selector-col">.blsm-intro-overlay</td><td>First-run intro wizard backdrop</td></tr>
+              <tr><td class="selector-col">.blsm-intro-card</td><td>Intro wizard card</td></tr>
+              <tr><td class="selector-col">.blossom-update-overlay</td><td>Update available backdrop</td></tr>
+              <tr><td class="selector-col">.blossom-update-dialog</td><td>Corner update dialog (not <code>.update-banner</code>)</td></tr>
+              <tr><td class="selector-col">.blossom-update-x</td><td>Dismiss update button</td></tr>
+              <tr><td class="selector-col">.blsm-credits-card</td><td>Credits panel card</td></tr>
+              <tr><td class="selector-col">.blossom-credits-card</td><td>Credits person card</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>§16 — Command palette (Ctrl+K)</h3>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Selector</th><th>Element</th></tr></thead>
+            <tbody>
+              <tr><td class="selector-col">#blsm-cmdk</td><td>Command palette root</td></tr>
+              <tr><td class="selector-col">.blsm-cmdk-backdrop</td><td>Dimmed backdrop</td></tr>
+              <tr><td class="selector-col">.blsm-cmdk-panel</td><td>Search panel</td></tr>
+              <tr><td class="selector-col">.blsm-cmdk-input</td><td>Search input</td></tr>
+              <tr><td class="selector-col">.blsm-cmdk-list</td><td>Results list</td></tr>
+              <tr><td class="selector-col">.blsm-cmdk-item</td><td>Single result row</td></tr>
+              <tr><td class="selector-col">.blsm-cmdk-item.is-active</td><td>Keyboard-highlighted result</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>§17 — Icons (Lucide)</h3>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Selector</th><th>Element</th></tr></thead>
+            <tbody>
+              <tr><td class="selector-col">.blsm-vec</td><td>Lucide SVG icon (injected by blossom-icons.js)</td></tr>
+              <tr><td class="selector-col">.blsm-vec.is-solid</td><td>Filled icon variant</td></tr>
+              <tr><td class="selector-col">svg.blsm-vec path</td><td>Icon path strokes / fills</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>§18 — Changelog tab</h3>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Selector</th><th>Element</th></tr></thead>
+            <tbody>
+              <tr><td class="selector-col">.changelog-item</td><td>Version block in Notice tab</td></tr>
+              <tr><td class="selector-col">.changelog-item h4</td><td>Version heading</td></tr>
+              <tr><td class="selector-col">.changelog-item ul</td><td>Change bullet list</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>§19 — Scrollbars</h3>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Selector</th><th>Element</th></tr></thead>
+            <tbody>
+              <tr><td class="selector-col">*</td><td><code>scrollbar-color</code> for Firefox / WebView</td></tr>
+              <tr><td class="selector-col">*::-webkit-scrollbar</td><td>Scrollbar track dimensions</td></tr>
+              <tr><td class="selector-col">*::-webkit-scrollbar-thumb</td><td>Draggable thumb</td></tr>
+              <tr><td class="selector-col">*::-webkit-scrollbar-track</td><td>Track background</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>§20 — Advanced (visual hide)</h3>
+        <p>The example file includes commented recipes for hiding surfaces with <code>display: none !important</code>. Features still exist — you only hide controls visually.</p>
+        <ul>
+          <li><code>.sidebar-footer</code> — hide footer by-line</li>
+          <li><code>.header-bar .pin-btn</code> — hide always-on-top pin</li>
+          <li><code>.blsm-theme-fallback-note</code> — hide Custom UI fallback note</li>
+        </ul>
+
+        <h2 id="rules-security">Rules &amp; security</h2>
+        <p>Blossom loads Custom UI through <code>blossom_custom_ui.py</code>. Files must pass sanitization or they are blocked with an error in Appearance.</p>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Rule</th><th>Detail</th></tr></thead>
+            <tbody>
+              <tr><td><strong>CSS only</strong></td><td>No HTML, JavaScript, or executable content in theme files.</td></tr>
+              <tr><td><strong>Max size</strong></td><td>512 KB per file.</td></tr>
+              <tr><td><strong>Filename</strong></td><td>Must end in <code>.css</code>, not <code>.example.css</code>, no <code>..</code> paths.</td></tr>
+              <tr><td><strong>No <code>@import</code></strong></td><td>External stylesheets are blocked.</td></tr>
+              <tr><td><strong>No remote <code>url()</strong></td><td><code>http://</code>, <code>https://</code>, <code>ftp://</code>, and protocol-relative URLs blocked. <code>data:</code> URLs are allowed.</td></tr>
+              <tr><td><strong>No script vectors</strong></td><td><code>&lt;script&gt;</code>, <code>javascript:</code>, <code>vbscript:</code>, <code>expression()</code>, <code>behavior:</code>, <code>-moz-binding:</code>, <code>data:text/html</code> blocked.</td></tr>
+              <tr><td><strong>No embedded documents</strong></td><td><code>&lt;iframe&gt;</code>, <code>&lt;object&gt;</code>, <code>&lt;embed&gt;</code>, <code>&lt;link&gt;</code>, <code>&lt;meta&gt;</code>, <code>&lt;base&gt;</code> blocked.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Example — minimal token theme</h2>
+        <p>Copy this into <code>minimal-rose.css</code> for a quick recolor without touching individual selectors.</p>
+        <div class="doc-code-wrap"><pre><code>body, body[data-theme="custom"] {
+  --bg-root: #0a0809;
+  --bg-sidebar: #100c0e;
+  --bg-main: #0d090b;
+  --bg-card: #161014;
+  --bg-card-hover: #1c1519;
+  --bg-input: #120e10;
+  --bg-input-focus: #1a1418;
+  --accent: #e891a8;
+  --accent-dim: #c46d88;
+  --accent-text: #f5c6d4;
+  --accent-glow: rgba(232, 145, 168, 0.15);
+  --border-accent: rgba(232, 145, 168, 0.3);
+  --shadow-glow: 0 0 20px rgba(232, 145, 168, 0.08);
+  --text-on-accent: #ffffff;
+  --text-primary: #ece8ea;
+  --text-secondary: #a8a0a4;
+  --text-muted: #6e6468;
+  --border: #241a1e;
+  --border-hover: #32242a;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  color: var(--text-primary);
+  background: var(--bg-root);
+  font-family: Sarpanch, Inter, sans-serif;
+}</code></pre></div>
+
+        <h2>Example — full reskin starter</h2>
+        <p>Start from the shipped template — it includes every § section with working defaults. Copy the whole file, then edit section by section.</p>
+        <div class="doc-code-wrap"><pre><code>/* my-skin.css — copy custom-ui.example.css, then customize */
+
+body, body[data-theme="custom"] {
+  --bg-root: #070b14;
+  --accent: #818cf8;
+  --accent-text: #e0e3ff;
+  /* …all tokens… */
+}
+
+.sidebar {
+  background: linear-gradient(180deg, #0a0f1d, #070b14);
+  border-right: 1px solid var(--border);
+}
+
+.sidebar-item.active {
+  background: var(--accent-glow);
+  color: var(--accent-text);
+}
+
+.card {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-accent);
+}
+
+/* Target one tab only: */
+.page-content[data-blossom-page="Macro"] .card {
+  /* macro-specific tweaks */
+}</code></pre></div>
+        <p>For the complete starter, open <code>%LOCALAPPDATA%\Blossom\themes\custom-ui.example.css</code> — it is always kept in sync with the app (v3 marker).</p>
+
         <h2>Sharing themes</h2>
-        <p>Publish your <code>.css</code> on Discord or GitHub. Others drop it into their <code>themes</code> folder and select it in Appearance.</p>
-        <p>Font licenses: <a href="credits.html">Credits</a>.</p>
+        <ol>
+          <li>Export your <code>.css</code> file (no personal paths or secrets — it is pure styling).</li>
+          <li>Share on Discord, GitHub Gist, or a theme thread — include a screenshot if you can.</li>
+          <li>Recipients drop the file into their <code>themes</code> folder, select it under Appearance → Custom UI → Refresh.</li>
+        </ol>
+        <div class="doc-tip">
+          <p>If your theme uses custom fonts, recipients must have those fonts installed locally — @font-face with remote URLs will not work. Prefer system stacks or embed via <code>data:</code> if you accept the file size cost.</p>
+        </div>
+        <p>Font licenses for Blossom’s bundled typefaces: see <a href="credits.html">Credits</a>.</p>
+
+        <h2>Troubleshooting themes</h2>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Problem</th><th>Fix</th></tr></thead>
+            <tbody>
+              <tr><td>Theme not in dropdown</td><td>File must be <code>.css</code>, not <code>.example.css</code>, in the themes folder. Click Refresh.</td></tr>
+              <tr><td>“Blocked (unsafe CSS or too large)”</td><td>Remove <code>@import</code>, remote <code>url()</code>, or script-like patterns. Keep under 512 KB.</td></tr>
+              <tr><td>Flash of default pink on startup</td><td>Should not happen on current builds — CSS caches before first paint. Update Blossom if you see a flash.</td></tr>
+              <tr><td>Built-in theme picker grayed out</td><td>Expected while Custom UI is active. Set Custom UI to <strong>None</strong> to use built-in themes again.</td></tr>
+              <tr><td>Changes not appearing</td><td>Save the file, then click <strong>Refresh</strong> in Appearance. Restart Blossom if the bridge was still starting.</td></tr>
+              <tr><td>Light text on light background</td><td>Set <code>html.blsm-light-ui</code> overrides or use dark <code>--text-primary</code> when building a light skin.</td></tr>
+              <tr><td>JSON theme no longer works</td><td>JSON themes were retired in 2.2.x. Convert to Custom UI CSS using the token + selector reference above.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>More app issues: <a href="troubleshooting.html">Troubleshooting</a>. Setup help: <a href="getting-started.html">Getting Started</a>.</p>
       </article>
     </div>
   </div>

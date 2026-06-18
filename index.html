@@ -21,14 +21,16 @@
       </header>
       <article class="doc-content">
         <h1>Blossom</h1>
-        <p class="doc-lead">Macro for <strong>Sol's RNG</strong> — biomes, auras, merchants, potions, fishing. Free on stable releases.</p>
+        <p class="doc-lead">Your cozy command center for <strong>Sol's RNG</strong> — automate biomes, merchants, potions, and fishing while you are away. Free on stable releases.</p>
 
         <div class="doc-btn-row">
           <a class="doc-btn" href="https://github.com/MaxxWasHere/blossom/releases">Download stable</a>
           <a class="doc-btn doc-btn-ghost" href="getting-started.html">Getting started</a>
         </div>
 
-        <p>Fork of the <a href="https://github.com/xVapure/Noteab-Macro">Coteab macro</a> by Vapure, built on the original Noteab biome macro. Blossom adds its own UI and Python backend.</p>
+        <div class="doc-callout">
+          <p>Blossom is a fork of the <a href="https://github.com/xVapure/Noteab-Macro">Coteab macro</a> by Vapure, built on the original Noteab biome macro. Same macro DNA — Blossom adds its own sakura UI, Python backend, calibrations hub, reconnect flow, and Custom UI theming.</p>
+        </div>
 
         <h2>Download</h2>
         <div class="doc-table-wrap">
@@ -37,48 +39,54 @@
             <tbody>
               <tr>
                 <td><span class="doc-pill">Stable</span></td>
-                <td><a href="https://github.com/MaxxWasHere/blossom/releases">Releases</a> — run <strong>Blossom.exe</strong> once; installs to <code>%LOCALAPPDATA%\Blossom\</code></td>
+                <td><a href="https://github.com/MaxxWasHere/blossom/releases">Releases</a> — run <strong>Blossom.exe</strong> once. The bootstrapper installs and syncs the app into <code>%LOCALAPPDATA%\Blossom\</code> and keeps it updated on every launch.</td>
               </tr>
               <tr>
                 <td><span class="doc-pill">Beta</span></td>
-                <td><a href="https://github.com/MaxxWasHere/blossombeta/releases">Beta releases</a> — <strong>Blossom-beta.exe</strong>; license key required on first launch</td>
+                <td><a href="https://github.com/MaxxWasHere/blossombeta/releases">Beta releases</a> — <strong>Blossom-beta.exe</strong>. License key required on first launch (<code>/getkey</code> in Discord).</td>
               </tr>
             </tbody>
           </table>
         </div>
-        <p>Windows only. Blank window? Install <a href="https://developer.microsoft.com/microsoft-edge/webview2/">WebView2</a>.</p>
+        <p>Windows only. If you see a blank window, install <a href="https://developer.microsoft.com/microsoft-edge/webview2/">WebView2 Runtime</a>.</p>
 
         <h2>Start here</h2>
         <div class="doc-card-grid">
           <div class="doc-card cornered"><span class="corner-bl" aria-hidden="true"></span><span class="corner-br" aria-hidden="true"></span>
             <h3><a href="getting-started.html">Getting Started</a></h3>
-            <p>Install, first run, enable modules.</p>
+            <p>Install, first run, config folders, and enabling modules.</p>
           </div>
           <div class="doc-card cornered"><span class="corner-bl" aria-hidden="true"></span><span class="corner-br" aria-hidden="true"></span>
             <h3><a href="calibrations.html">Calibrations</a></h3>
-            <p>Required setup — video tutorial linked.</p>
+            <p>Required setup — merchant OCR, fishing, reconnect, and more.</p>
           </div>
           <div class="doc-card cornered"><span class="corner-bl" aria-hidden="true"></span><span class="corner-br" aria-hidden="true"></span>
             <h3><a href="theming.html">Theming</a></h3>
-            <p>Built-in themes and Custom UI CSS.</p>
+            <p>Built-in themes, Custom UI CSS, full selector reference.</p>
           </div>
           <div class="doc-card cornered"><span class="corner-bl" aria-hidden="true"></span><span class="corner-br" aria-hidden="true"></span>
             <h3><a href="troubleshooting.html">Troubleshooting</a></h3>
-            <p>Common fixes when something breaks.</p>
+            <p>WebView2, OCR, admin, licensing, and common macro fixes.</p>
           </div>
         </div>
 
         <h2>What Blossom does</h2>
         <ul>
-          <li>Log-based biome and aura detection</li>
-          <li>Auto merchant — OCR for Mari / Jester / Rin, optional teleporter and buy lists</li>
-          <li>Auto potions, fishing mode, anti-AFK</li>
-          <li>Discord webhooks — rare biomes and merchants</li>
+          <li><strong>Biomes &amp; auras</strong> — log-based detection once calibrated; session stats in the side panel</li>
+          <li><strong>Auto merchant</strong> — WinOCR finds Mari / Jester / Rin, buys from your lists, optional teleporter route and return to Limbo via Portable Crack</li>
+          <li><strong>Auto potions</strong> — crafts and rotates potions in any biome, including GLITCHED, DREAMSPACE, CYBERSPACE</li>
+          <li><strong>Fishing mode</strong> — bite detection, reel minigame, walk to dock, optional sell at the fish shop; failsafe rejoin when stuck</li>
+          <li><strong>Auto Reconnect</strong> — relaunch Roblox, join your private server, click calibrated Reconnect Start; forced sell after reconnect when inventory was full</li>
+          <li><strong>Discord webhooks</strong> — rare biome and merchant pings with your private server link</li>
+          <li><strong>Anti-AFK</strong> — subtle mouse activity so long sessions stay alive</li>
         </ul>
-        <p>Changelog lives in the app <strong>Notice</strong> tab and on <a href="https://github.com/MaxxWasHere/blossom/releases">GitHub Releases</a>.</p>
+
+        <div class="doc-tip">
+          <p>The in-app <strong>Notice</strong> tab has the full changelog. Stable release notes also appear on <a href="https://github.com/MaxxWasHere/blossom/releases">GitHub Releases</a>.</p>
+        </div>
 
         <h2>Source &amp; license</h2>
-        <p>Repo: <a href="https://github.com/MaxxWasHere/blossom">github.com/MaxxWasHere/blossom</a> · Apache 2.0 — keep upstream credit if you redistribute. <a href="credits.html">Full credits</a></p>
+        <p>Repo: <a href="https://github.com/MaxxWasHere/blossom">github.com/MaxxWasHere/blossom</a> · Apache 2.0 — keep upstream credit if you redistribute. <a href="credits.html">Full credits &amp; lineage</a></p>
       </article>
     </div>
   </div>

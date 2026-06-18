@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sarpanch:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/blossom.github.io/assets/css/site.css">
 </head>
-<body data-page="troubleshooting">
+<body data-page="troubleshooting" data-toc>
   <div class="doc-overlay" id="doc-overlay"></div>
   <div class="doc-app">
     <aside class="doc-sidebar" id="doc-sidebar" aria-label="Documentation navigation"></aside>
@@ -21,46 +21,77 @@
       </header>
       <article class="doc-content">
         <h1>Troubleshooting</h1>
-        <p class="doc-lead">Common fixes when Blossom won't start, mis-clicks, or misreads the screen.</p>
+        <p class="doc-lead">Most issues fall into a few buckets: the app shell, clicks/OCR, or beta licensing. Work through the section that matches what you see.</p>
 
         <h2>App won't start or window is blank</h2>
         <ul>
-          <li>Install <a href="https://developer.microsoft.com/microsoft-edge/webview2/">Microsoft WebView2</a>.</li>
-          <li>Run <strong>Blossom.exe</strong> from releases — not only the inner <code>Blossom-x.y.z.exe</code> unless you know you need it.</li>
-          <li>Try running as <strong>administrator</strong>.</li>
-          <li>Full reinstall: delete <code>%LOCALAPPDATA%\Blossom\</code> only if you have a config backup.</li>
+          <li>Install <a href="https://developer.microsoft.com/microsoft-edge/webview2/">Microsoft WebView2 Runtime</a> (Evergreen).</li>
+          <li>Run <strong>Blossom.exe</strong> or <strong>Blossom-beta.exe</strong> from releases — the bootstrap launcher, not only an old inner <code>Blossom-x.y.z.exe</code> unless you know you need it.</li>
+          <li>Try <strong>Run as administrator</strong>.</li>
+          <li>Watch the bootstrap splash for inline error text instead of a silent fail.</li>
+          <li>Full reinstall: delete <code>%LOCALAPPDATA%\Blossom\</code> only if you have backed up config and calibrations.</li>
         </ul>
 
         <h2>Antivirus / "virus" warning</h2>
-        <p>Blossom is open source. Windows Defender often flags <strong>PyInstaller</strong> exes. Scan on <a href="https://www.virustotal.com/">VirusTotal</a> or run in a VM if unsure.</p>
+        <p>Blossom is open source. Windows Defender often flags <strong>PyInstaller</strong> exes heuristically. Upload the file to <a href="https://www.virustotal.com/">VirusTotal</a>, compare hashes with GitHub releases, or run from source with <code>py run_local_ui.py</code> if you want to audit behavior directly.</p>
 
         <h2>Macro idle or clicks miss</h2>
         <ul>
-          <li>Run Blossom as administrator.</li>
-          <li>Keep Roblox focused; match calibrated resolution and UI scale.</li>
-          <li>Increase <strong>mouse delay</strong> (1000–2000 ms).</li>
-          <li>Recalibrate OCR failsafe — see <a href="calibrations.html">Calibrations</a>.</li>
+          <li>Run Blossom as <strong>administrator</strong>.</li>
+          <li>Keep Roblox focused; use the same calibrated resolution and UI scale.</li>
+          <li>Increase <strong>mouse delay</strong> to 1000–2000 ms in settings.</li>
+          <li>Recalibrate OCR failsafe and shop regions — <a href="calibrations.html">Calibrations</a>.</li>
+          <li>Blossom no longer shrinks a maximized Roblox window when starting the macro — if focus fails, restore the window manually once.</li>
         </ul>
 
         <h2>Wrong potions / OCR misreads</h2>
         <ul>
-          <li>Recalibrate merchant / OCR regions.</li>
-          <li>Use Arial or Rubik font in Roblox settings.</li>
-          <li>Raise input delay.</li>
+          <li>Recalibrate merchant and OCR regions in Macro Calibrations.</li>
+          <li>Switch Roblox chat/UI font to <strong>Arial</strong> or <strong>Rubik</strong>.</li>
+          <li>Install Windows OCR language pack <strong>en-US</strong> for WinOCR.</li>
+          <li>Raise input delay; avoid translucent or scaled UI overlays on top of Roblox.</li>
+        </ul>
+
+        <h2>Fishing stuck or chat spam</h2>
+        <ul>
+          <li>Enable <strong>Fishing failsafe rejoin</strong> and <strong>Auto Reconnect</strong> in Misc — after 60s at dock with no bite, Blossom retries UI nav then reconnects.</li>
+          <li>Prep-phase stuck recovery runs after 90s without progress on collections/walking steps.</li>
+          <li>Chat close clicks are debounced — if chat blocks fishing, recalibrate dock path or use recorded <code>fishing.json</code>.</li>
+        </ul>
+
+        <h2>Reconnect fails</h2>
+        <ul>
+          <li>Set a valid <strong>Private Server link</strong> in Misc settings.</li>
+          <li>Calibrate <strong>Reconnect Start</strong> under Movements calibrations.</li>
+          <li>Ensure Auto Reconnect is enabled; check Roblox logs are readable (standard install path).</li>
+        </ul>
+
+        <h2>Runtime components (OpenCV / WinOCR)</h2>
+        <ul>
+          <li>Let the launcher finish syncing — progress shows on splash and in the runtime card.</li>
+          <li>WinOCR “missing” on a fresh install usually clears after the bundle downloads.</li>
+          <li>Fishing needs OpenCV; merchant/biome OCR needs WinOCR + en-US language pack.</li>
         </ul>
 
         <h2>Beta: license errors</h2>
         <ul>
-          <li>Check internet and firewall.</li>
-          <li>Use <code>/resethwid</code> in Discord once if you changed PCs.</li>
-          <li>Beta keys are one device per key.</li>
+          <li>Check internet, firewall, and that you are on the matching beta build.</li>
+          <li><code>/resethwid</code> in Discord once if you changed PCs or see machine mismatch.</li>
+          <li>Beta keys are one device per key. Clearer timeout/SSL/DNS errors appear when the network is actually down.</li>
+          <li>If activation says it cannot reach the server from the <code>.exe</code> but dev mode works, update — packaged builds include HTTPS cert fallbacks.</li>
+        </ul>
+
+        <h2>Appearance / theming</h2>
+        <ul>
+          <li>Custom UI blocked? Remove <code>@import</code>, remote URLs, or oversize files — see <a href="theming.html">Theming</a>.</li>
+          <li>Settings not saving? Update to latest — appearance writes immediately to config on current builds.</li>
         </ul>
 
         <h2>Updates</h2>
-        <p>Use the launcher <strong>Blossom.exe</strong> — it checks GitHub for your channel. If an update fails, download manually from <a href="https://github.com/MaxxWasHere/blossom/releases">Releases</a>.</p>
+        <p>Use the launcher <strong>Blossom.exe</strong> — it syncs to the newest release on your channel every start, including rollbacks. If sync fails, download manually from <a href="https://github.com/MaxxWasHere/blossom/releases">Releases</a> and replace the launcher.</p>
 
         <h2>More help</h2>
-        <p>Community Discord (link in repo README) or open a GitHub issue with Blossom version, Windows version, and what you already tried.</p>
+        <p>Community Discord (link in repo README) or open a GitHub issue with Blossom version, Windows version, and what you already tried. Screenshots of calibration regions help for OCR issues.</p>
       </article>
     </div>
   </div>

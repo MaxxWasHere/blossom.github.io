@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sarpanch:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/blossom.github.io/assets/css/site.css">
 </head>
-<body data-page="dev">
+<body data-page="dev" data-toc>
   <div class="doc-overlay" id="doc-overlay"></div>
   <div class="doc-app">
     <aside class="doc-sidebar" id="doc-sidebar" aria-label="Documentation navigation"></aside>
@@ -21,31 +21,51 @@
       </header>
       <article class="doc-content">
         <h1>Release &amp; build</h1>
-        <p class="doc-lead">Maintainer notes for stable/beta builds, versioning, and GitHub releases.</p>
+        <p class="doc-lead">Maintainer notes for stable and beta builds, versioning, GitHub releases, and local development. Users looking to install Blossom should start on <a href="getting-started.html">Getting Started</a>.</p>
 
+        <h2>Release channels</h2>
         <div class="doc-table-wrap">
           <table class="doc-table">
             <thead><tr><th></th><th>Stable</th><th>Beta</th></tr></thead>
             <tbody>
               <tr><td>Repo</td><td><a href="https://github.com/MaxxWasHere/blossom">blossom</a></td><td><a href="https://github.com/MaxxWasHere/blossombeta">blossombeta</a></td></tr>
-              <tr><td>License</td><td>None</td><td>Key required</td></tr>
+              <tr><td>License gate</td><td>None</td><td>Discord key + HWID</td></tr>
               <tr><td>Launcher</td><td><code>Blossom.exe</code></td><td><code>Blossom-beta.exe</code></td></tr>
+              <tr><td>Payload path</td><td><code>%LOCALAPPDATA%\Blossom\app\stable\</code></td><td><code>…\app\beta\</code></td></tr>
+              <tr><td>Changelog (in-app)</td><td colspan="2"><code>assets/noticetabcontents.txt</code></td></tr>
             </tbody>
           </table>
         </div>
 
-        <h2>Build</h2>
-        <p><strong>Prereqs:</strong> Python 3.14+, <code>pip install -r requirements.txt</code></p>
+        <h2>Local development</h2>
+        <p><strong>Prerequisites:</strong> Python 3.14+, WebView2 runtime, <code>pip install -r requirements.txt</code></p>
         <div class="doc-code-wrap"><pre><code>py run_local_ui.py</code></pre></div>
-        <p><strong>Release exes</strong> (close running Blossom first):</p>
+        <p>Custom UI template lives in <code>src/blossom_custom_ui.py</code> (<code>ensure_sample_custom_ui_file()</code>). Appearance logic: <code>assets/blossom-appearance.js</code>. Built-in theme tokens: <code>assets/blossom-themes.css</code>.</p>
+
+        <h2>Release build</h2>
+        <p>Close running Blossom instances first. Output separates launchers (<code>launchers/</code>) from versioned payload exes (<code>app/</code>).</p>
         <div class="doc-code-wrap"><pre><code>py scripts\build_all.py all --stable-version 2.2.4 --beta-version 2.2.4-beta.1 -o dist\2.2.4 --bootstrap</code></pre></div>
 
-        <h2>Version bump</h2>
-        <p>Align <code>scripts/build_all.py</code>, <code>src/blossom_updater.py</code>, and <code>assets/noticetabcontents.txt</code> before tagging.</p>
+        <h2>Version bump checklist</h2>
+        <ol>
+          <li><code>src/blossom_build_info.py</code> → <code>APP_VERSION</code></li>
+          <li><code>scripts/build_all.py</code> default versions</li>
+          <li><code>src/blossom_updater.py</code> if release URLs change</li>
+          <li><code>assets/noticetabcontents.txt</code> — user-facing changelog (stable heading only, no beta suffix in title)</li>
+          <li>Tag GitHub release; upload launchers + payload; mirror beta notes to blossombeta repo if applicable</li>
+        </ol>
+
+        <div class="doc-callout">
+          <p><strong>Custom UI sanitizer</strong> — <code>src/blossom_custom_ui.py</code> blocks <code>@import</code>, remote <code>url()</code>, script-like CSS, and files over 512 KB. Document changes in theming docs when selector maps change.</p>
+        </div>
+
+        <h2>Docs site</h2>
+        <p>User documentation: <a href="https://github.com/MaxxWasHere/blossom.github.io">blossom.github.io</a> (GitHub Pages, project site at <code>/blossom.github.io/</code>). Static HTML — no build step.</p>
 
         <h2>More links</h2>
         <ul>
           <li><a href="https://github.com/MaxxWasHere/blossom/blob/main/license-server/README.md">License server README</a></li>
+          <li><a href="theming.html">Theming docs</a> — Custom UI selector reference</li>
           <li><a href="credits.html">Credits</a></li>
         </ul>
       </article>

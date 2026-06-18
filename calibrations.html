@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sarpanch:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/blossom.github.io/assets/css/site.css">
 </head>
-<body data-page="calibrations">
+<body data-page="calibrations" data-toc>
   <div class="doc-overlay" id="doc-overlay"></div>
   <div class="doc-app">
     <aside class="doc-sidebar" id="doc-sidebar" aria-label="Documentation navigation"></aside>
@@ -21,41 +21,82 @@
       </header>
       <article class="doc-content">
         <h1>Calibrations</h1>
-        <p class="doc-lead">Blossom reads screen positions and game logs. <strong>Calibrations are required</strong> for merchant OCR, fishing, inventory actions, and reconnect.</p>
+        <p class="doc-lead">Blossom automates by reading your screen and game logs. <strong>Calibrations tell it where to click</strong> — without them, merchant OCR, fishing, inventory actions, and reconnect will miss.</p>
 
         <div class="doc-btn-row">
           <a class="doc-btn" href="https://youtu.be/s2S7Bncx9ns">Watch video tutorial</a>
         </div>
 
-        <h2>Macro Calibrations hub</h2>
-        <p>Open <strong>Macro Calibrations</strong> in the sidebar. The unified hub groups calibrations by feature instead of scattered legacy panels.</p>
+        <div class="doc-warning">
+          <p>Match the <strong>same Roblox resolution, window mode, and UI scale</strong> every time you run the macro. If you change display settings, recalibrate or import a preset for your new setup.</p>
+        </div>
 
-        <h3>Tips</h3>
+        <h2>Macro Calibrations hub</h2>
+        <p>Open <strong>Macro Calibrations</strong> in the sidebar. The unified hub (<code>#blsm-cal-hub</code>) groups calibrations by feature instead of scattered legacy accordions — older panels stay hidden while the hub is active.</p>
+        <p>Each category has tabs for mark points (click positions), steps, and hints. Use the mouse calibration card to capture coordinates while Roblox is focused.</p>
+
+        <h2>General tips</h2>
         <ul>
-          <li>Match Roblox <strong>resolution and UI scale</strong> to what you calibrated (fullscreen recommended).</li>
-          <li>Set <strong>mouse delay</strong> to 1000–2000 ms if OCR mis-clicks; Arial or Rubik font in Roblox helps OCR.</li>
-          <li>Use <strong>presets</strong> when your resolution/scale/mode matches a community preset (from upstream <code>macro_calibs_preset.json</code>).</li>
+          <li><strong>Fullscreen</strong> Roblox at a fixed resolution is the most reliable setup.</li>
+          <li>Set <strong>mouse delay</strong> to 1000–2000 ms if OCR mis-clicks; lower only when everything is stable.</li>
+          <li>Use <strong>Arial or Rubik</strong> font in Roblox — WinOCR reads them more reliably.</li>
+          <li><strong>Community presets</strong> — import <code>macro_calibs_preset.json</code> from upstream when your resolution/scale matches; otherwise calibrate manually once per PC.</li>
+          <li>Collections and UI clicks during fishing prep now jump to the button, settle, then click — still calibrate accurate positions.</li>
         </ul>
 
-        <h2>Common calibration groups</h2>
+        <h2>Calibration groups</h2>
         <div class="doc-table-wrap">
           <table class="doc-table">
-            <thead><tr><th>Feature</th><th>What to calibrate</th></tr></thead>
+            <thead><tr><th>Feature</th><th>What to calibrate</th><th>Notes</th></tr></thead>
             <tbody>
-              <tr><td>Merchant</td><td>Shop regions, talk/buy clicks, OCR failsafe</td></tr>
-              <tr><td>Fishing</td><td>Rod, reel minigame, dock walk, sell</td></tr>
-              <tr><td>Inventory / BR / SC</td><td>Search bar, item slots (Portable Crack / Limbo return)</td></tr>
-              <tr><td>Reconnect</td><td>Start button after Roblox relaunch, private server link in Settings</td></tr>
+              <tr>
+                <td><strong>Merchant</strong></td>
+                <td>Talk / shop regions, buy clicks, OCR failsafe, <strong>Set Max</strong> button, Purchase</td>
+                <td>Auto-buy presses Set Max then Purchase (Rin and merchants without Max still use typed amounts). Optional teleporter flow and return to Limbo via Portable Crack in inventory.</td>
+              </tr>
+              <tr>
+                <td><strong>Fishing</strong></td>
+                <td>Rod, reel minigame, dock walk, sell at fish shop, collections menu</td>
+                <td>Enable Fishing Mode on Macro tab. Optional recorded path in <code>paths/fishing.json</code>. Failsafe rejoin after 60s stuck at dock (needs Auto Reconnect + toggle in Misc).</td>
+              </tr>
+              <tr>
+                <td><strong>Inventory / BR / SC</strong></td>
+                <td>Search bar, item slots, Portable Crack for Limbo return</td>
+                <td>Used by merchant Limbo return and inventory automation.</td>
+              </tr>
+              <tr>
+                <td><strong>Reconnect</strong></td>
+                <td><strong>Reconnect Start</strong> button after relaunch</td>
+                <td>Set <strong>Private Server link</strong> in Misc. Auto Reconnect terminates Roblox, rejoins, clicks Start, verifies logs. Forced sell on next fishing cycle after successful reconnect.</td>
+              </tr>
+              <tr>
+                <td><strong>Movements</strong></td>
+                <td>Character align, biome selector, daily quests, glitched buffs</td>
+                <td><code>char_align.json</code> in paths/ replays keys-only alignment before recorded walks.</td>
+              </tr>
+              <tr>
+                <td><strong>Potions / crafting</strong></td>
+                <td>Craft UI regions per biome</td>
+                <td>Supports GLITCHED, DREAMSPACE, CYBERSPACE rotations.</td>
+              </tr>
             </tbody>
           </table>
         </div>
-        <p>Import a full preset JSON from GitHub if you share configs with your resolution — otherwise calibrate manually once per PC.</p>
 
-        <h2>After updating Blossom</h2>
-        <p>Re-check calibrations if a game update moves UI elements. Your config file is preserved across app updates.</p>
+        <h2>Merchant teleporter &amp; Limbo</h2>
+        <p>The Merchant tab shows a three-step flow: <strong>Teleporter → Shop → Portable Crack</strong>. After a teleporter shopping run, Blossom can use Portable Crack from inventory (search “crack”, amount 1, Use) to return to Limbo. Toggle under Merchant → <strong>Return to Limbo after merchant teleporter</strong>.</p>
+
+        <h2>OCR &amp; runtime</h2>
+        <p>Merchant, Eden, and biome-selector OCR use <strong>WinOCR</strong> (not Tesseract). Install the Windows OCR <strong>en-US</strong> language pack if prompted. The OCR-unavailable notice only appears when a feature that needs OCR runs without WinOCR — not on every startup.</p>
+
+        <h2>Import / export</h2>
+        <p>Share your calibration JSON with friends on the same resolution, or back up before reinstalling. Config is preserved across Blossom app updates — only game UI moves force recalibration.</p>
+
+        <h2>After updating Blossom or the game</h2>
+        <p>Re-check calibrations if a Roblox update moves UI elements. Your config file survives app updates; you usually only re-mark moved buttons.</p>
 
         <h2>Still stuck?</h2>
-        <p>See <a href="troubleshooting.html">Troubleshooting</a> or ask in the community Discord.</p>
+        <p>See <a href="troubleshooting.html">Troubleshooting</a> for click misses and OCR issues, or ask in the community Discord linked from the repo README.</p>
       </article>
     </div>
   </div>
