@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Features &amp; tabs — Blossom Docs</title>
+  <meta name="description" content="Every Blossom tab and macro module explained — merchant, fishing, potions, biomes, reconnect, and more.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sarpanch:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/blossom.github.io/assets/css/site.css">
+</head>
+<body data-page="features" data-toc>
+  <div class="doc-overlay" id="doc-overlay"></div>
+  <div class="doc-app">
+    <aside class="doc-sidebar" id="doc-sidebar" aria-label="Documentation navigation"></aside>
+    <div class="doc-main">
+      <header class="doc-topbar">
+        <button type="button" class="doc-menu-btn" id="doc-menu-btn" aria-label="Open menu">☰</button>
+        <span class="doc-topbar-title">Features</span>
+      </header>
+      <article class="doc-content">
+        <h1>Features &amp; tabs</h1>
+        <p class="doc-lead">Blossom is more than a single “start macro” button. Think of it as a small control room: each sidebar tab handles one part of your Sol's RNG session, and you turn on only what you need.</p>
+
+        <div class="doc-callout">
+          <p><strong>New here?</strong> Install and calibrate first on <a href="getting-started.html">Getting Started</a>, then come back to pick modules. Most features need at least one calibration before they work reliably.</p>
+        </div>
+
+        <h2>How the app is laid out</h2>
+        <p>When you open Blossom, you get a familiar desktop layout: sidebar on the left, a header bar with <strong>Start</strong> / <strong>Stop</strong>, and the active tab in the middle. Press <kbd>Ctrl+K</kbd> (or click the search box) to jump to any page or quick action without hunting through the sidebar.</p>
+        <p>Your session stats and biome info live in the side panel while the macro runs. Settings you change are saved right away — no “apply” button to forget.</p>
+
+        <h2>Macro tab — the heart of it</h2>
+        <div class="doc-section-intro">
+          <p>This is where you enable automations. Blossom runs enabled modules in a fixed priority order each tick (buffs → merchant → Strange Controller → Biome Randomizer → biome selector → potions → daily quests → obby), so modules take turns instead of fighting each other.</p>
+        </div>
+
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Module</th><th>What it does for you</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>Biome detection</strong></td>
+                <td>Watches Roblox logs for biome rolls and aura equips after calibration. Powers session stats and optional Discord pings.</td>
+              </tr>
+              <tr>
+                <td><strong>Auto merchant</strong></td>
+                <td>Presses interact, reads shop names with WinOCR (Mari / Jester / Rin), buys from your item lists. See <a href="merchant.html">Auto merchant</a>.</td>
+              </tr>
+              <tr>
+                <td><strong>Fishing mode</strong></td>
+                <td>Full fishing loop: bite detect, reel minigame, walk to dock, optional sell. Pauses other farm modules while active. <a href="fishing.html">Fishing guide</a></td>
+              </tr>
+              <tr>
+                <td><strong>Auto potion craft</strong></td>
+                <td>Brews potions in any biome, including GLITCHED, DREAMSPACE, and CYBERSPACE. Optional rotation across up to three potion files when <strong>Potion Switching</strong> is on (requires craft enabled).</td>
+              </tr>
+              <tr>
+                <td><strong>Biome Randomizer (BR)</strong> / <strong>Strange Controller (SC)</strong></td>
+                <td>Uses calibrated inventory clicks to pop biomes from items. Shares timing with the rest of the macro loop.</td>
+              </tr>
+              <tr>
+                <td><strong>Auto claim daily quests</strong></td>
+                <td>Claims daily quest rewards on a timer when calibrated.</td>
+              </tr>
+              <tr>
+                <td><strong>Auto complete basic obby</strong></td>
+                <td>Runs your recorded obby path on an interval. Paths live in <code>paths/</code> — see <a href="settings.html#paths">walk paths</a>.</td>
+              </tr>
+              <tr>
+                <td><strong>Auto Eden contract</strong></td>
+                <td>Watches in-game chat for “Eden has appeared” via OCR (with spoof guard and cooldown), then pings Discord with a screenshot.</td>
+              </tr>
+              <tr>
+                <td><strong>Glitched buffs</strong></td>
+                <td>Equips buffs in GLITCHED when enabled and calibrated.</td>
+              </tr>
+              <tr>
+                <td><strong>Portable Crack / Limbo</strong></td>
+                <td>Teleports with Portable Crack or returns to Limbo when those toggles are on — used with merchant teleporter flows.</td>
+              </tr>
+              <tr>
+                <td><strong>Auto Reconnect</strong></td>
+                <td>If Roblox closes mid-session, relaunch, join your private server, click Reconnect Start. Needs PS link + calibration. <a href="settings.html#reconnect">Settings</a></td>
+              </tr>
+              <tr>
+                <td><strong>Anti-AFK</strong></td>
+                <td>Subtle mouse movement so long AFK sessions do not idle-kick you.</td>
+              </tr>
+              <tr>
+                <td><strong>Biome Selector</strong> <span class="doc-pill">WIP</span></td>
+                <td>Marked broken / unreliable in the UI — leave it off until a future fix ships.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="doc-tip">
+          <p><strong>Fishing vs everything else:</strong> While fishing runs, merchant, quests, potion craft, obby, BR/SC, and biome selector pause. If potion craft is also on, crafting wins priority and fishing waits — handy when you need brews between fish trips.</p>
+        </div>
+
+        <h2>Merchant tab</h2>
+        <p>Dedicated controls for teleporter shopping and Limbo return — not just toggles buried in Macro. You will see a three-step banner: <strong>Teleporter → Shop → Portable Crack</strong>.</p>
+        <ul>
+          <li>Configure Mari / Jester / Rin buy lists and amounts</li>
+          <li>Enable teleporter route and <strong>Return to Limbo after merchant teleporter</strong></li>
+          <li>Link to full walkthrough: <a href="merchant.html">Auto merchant guide</a></li>
+        </ul>
+
+        <h2>Webhook tab</h2>
+        <p>Discord integration lives here. The <strong>Biome Notifier</strong> hub lists every biome with per-biome notify toggles, user/role IDs, and rare-biome ping modes. Merchant and aura webhooks use Blossom-styled embeds with your private server rejoin link.</p>
+        <p>Deep dive: <a href="webhooks.html">Discord webhooks guide</a>.</p>
+
+        <h2>Auras tab</h2>
+        <p>Aura detection thresholds, force-ping lists, and Discord user IDs for rare aura rolls. Works with log-based detection after you have calibrated. Webhook embeds show rarity, player, and optional screenshots.</p>
+
+        <h2>Macro Calibrations</h2>
+        <p>One hub for every click position and OCR region — merchant slots, fishing dock, reconnect button, potion UI, and more. Without this step, the macro is guessing. <a href="calibrations.html">Calibration guide</a> · <a href="https://youtu.be/s2S7Bncx9ns">Video tutorial</a></p>
+
+        <h2>Appearance</h2>
+        <p>Eight built-in themes (Pink, Dark, Light, OLED, Sakura, Midnight, Forest, Match system), accent override, UI scale, window size, reduce motion, and <strong>Custom UI</strong> CSS skins. <a href="theming.html">Theming guide</a></p>
+
+        <h2>Settings &amp; extras</h2>
+        <p>Misc toggles you will use often:</p>
+        <ul>
+          <li><strong>Private server link</strong> — reconnect and webhook rejoin fields</li>
+          <li><strong>Mouse / input delay</strong> — raise if clicks land early (1000–2000 ms is a safe range)</li>
+          <li><strong>Fishing failsafe rejoin</strong> — stuck at dock recovery</li>
+          <li><strong>Runtime components</strong> — OpenCV and WinOCR sync status</li>
+          <li>Start/stop hotkeys, Roblox username for log matching</li>
+        </ul>
+        <p>Full config reference: <a href="settings.html">Settings &amp; config</a>.</p>
+
+        <h2>Notice tab</h2>
+        <p>In-app changelog — always the freshest list of what changed in your build. Stable releases also post notes on <a href="https://github.com/MaxxWasHere/blossom/releases">GitHub Releases</a>.</p>
+
+        <h2>What to enable first</h2>
+        <ol class="doc-steps">
+          <li>Calibrate merchant + movements (minimum for most farms)</li>
+          <li>Paste private server link if you want reconnect or webhook rejoin</li>
+          <li>Turn on the modules you actually need — avoid enabling everything on day one</li>
+          <li>Add Discord webhooks once biome/merchant detection works in-game</li>
+          <li>Tweak Appearance when the macro side is stable</li>
+        </ol>
+
+        <div class="doc-callout">
+          <p><strong>Why this matters:</strong> Blossom is built for overnight and long AFK sessions. Enabling only what you use keeps OCR load down, reduces mis-clicks, and makes troubleshooting easier when something drifts after a Roblox update.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+  <script src="/blossom.github.io/assets/js/site.js"></script>
+</body>
+</html>

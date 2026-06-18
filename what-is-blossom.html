@@ -21,7 +21,7 @@
       </header>
       <article class="doc-content">
         <h1>What is Blossom?</h1>
-        <p class="doc-lead">Blossom runs Sol's RNG for you — rolling biomes, buying merchants, brewing potions, and fishing — while you are AFK. It is a desktop app (WebView2 + Python) that watches game logs and clicks the UI on your behalf.</p>
+        <p class="doc-lead">Blossom runs Sol's RNG for you — rolling biomes, buying merchants, brewing potions, and fishing — while you are AFK. Think of it as a patient co-pilot: you calibrate once, flip on what you need, and it keeps clicking while you live your life.</p>
 
         <div class="doc-callout">
           <p>Lineage: <strong>Noteab</strong> (NotWindyZ) → <strong>Coteab</strong> (Vapure) → <strong>Blossom</strong> (MaxxWasHere). Same macro goals; Blossom ships its own UI, backend, releases, and Discord integrations.</p>
@@ -39,8 +39,8 @@
         </ul>
 
         <h2>How it is built</h2>
-        <p>Blossom combines a React UI in WebView2 with a Python automation backend (PyAutoGUI, log tailing, OCR). Fixed-name launchers <code>Blossom.exe</code> and <code>Blossom-beta.exe</code> bootstrap the versioned app payload and sync optional OpenCV / WinOCR bundles.</p>
-        <p>You customize behavior through calibrations (screen positions), config toggles, recorded walk paths, and — if you like — Custom UI CSS for the app chrome.</p>
+        <p>Blossom combines a React UI in WebView2 with a Python automation backend (screen clicks, log tailing, OCR). Fixed-name launchers <code>Blossom.exe</code> and <code>Blossom-beta.exe</code> bootstrap the versioned app payload and sync optional OpenCV / WinOCR bundles.</p>
+        <p>You customize behavior through calibrations (screen positions), config toggles, recorded walk paths, and — if you like — Custom UI CSS for the app chrome. Full tour: <a href="features.html">Features &amp; tabs</a>.</p>
 
         <h2>Get it</h2>
         <ul>
@@ -61,17 +61,31 @@
         </div>
 
         <h2>FAQ</h2>
-        <div class="doc-card cornered"><span class="corner-bl" aria-hidden="true"></span><span class="corner-br" aria-hidden="true"></span>
-          <p><strong>Is it a virus?</strong> No. Source is public on GitHub. Windows Defender often flags PyInstaller-packed exes — scan on VirusTotal or run from source if you prefer.</p>
-        </div>
-        <div class="doc-card cornered"><span class="corner-bl" aria-hidden="true"></span><span class="corner-br" aria-hidden="true"></span>
-          <p><strong>Black or white window?</strong> Install <a href="https://developer.microsoft.com/microsoft-edge/webview2/">WebView2 Runtime</a>.</p>
-        </div>
-        <div class="doc-card cornered"><span class="corner-bl" aria-hidden="true"></span><span class="corner-br" aria-hidden="true"></span>
-          <p><strong>Misdetects items or wrong potions?</strong> Recalibrate OCR regions or raise mouse delay to 1000–2000 ms. Arial or Rubik font in Roblox helps WinOCR.</p>
-        </div>
-        <div class="doc-card cornered"><span class="corner-bl" aria-hidden="true"></span><span class="corner-br" aria-hidden="true"></span>
-          <p><strong>Stable vs beta?</strong> Stable is free with no key. Beta gets newer features first but requires a Discord license key and HWID binding.</p>
+        <div class="doc-faq-grid">
+          <div class="doc-faq-item">
+            <h3>Is it a virus?</h3>
+            <p>No. Source is public on GitHub. Windows Defender often flags PyInstaller-packed exes — scan on VirusTotal or run from source if you prefer.</p>
+          </div>
+          <div class="doc-faq-item">
+            <h3>Black or white window?</h3>
+            <p>Install <a href="https://developer.microsoft.com/microsoft-edge/webview2/">WebView2 Runtime</a>.</p>
+          </div>
+          <div class="doc-faq-item">
+            <h3>Misdetects items or wrong potions?</h3>
+            <p>Recalibrate OCR regions or raise mouse delay to 1000–2000 ms. Arial or Rubik font in Roblox helps WinOCR.</p>
+          </div>
+          <div class="doc-faq-item">
+            <h3>Stable vs beta?</h3>
+            <p>Stable is free with no key. Beta gets newer features first but requires a Discord license key and HWID binding. <a href="settings.html">Settings guide</a></p>
+          </div>
+          <div class="doc-faq-item">
+            <h3>Where do I put walk paths and themes?</h3>
+            <p>Under <code>%LOCALAPPDATA%\Blossom\paths\</code> and <code>themes\</code>. See <a href="settings.html">Settings &amp; config</a>.</p>
+          </div>
+          <div class="doc-faq-item">
+            <h3>Can I customize the look?</h3>
+            <p>Yes — eight built-in themes plus full Custom UI CSS. <a href="theming.html">Theming guide</a></p>
+          </div>
         </div>
         <p>Licensed Apache 2.0. See <a href="credits.html">Credits</a> for authors and third-party libraries.</p>
       </article>

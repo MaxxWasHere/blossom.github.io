@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Settings &amp; config — Blossom Docs</title>
+  <meta name="description" content="Blossom config locations, important settings keys, paths, beta licensing, and updater behavior.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sarpanch:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/blossom.github.io/assets/css/site.css">
+</head>
+<body data-page="settings" data-toc>
+  <div class="doc-overlay" id="doc-overlay"></div>
+  <div class="doc-app">
+    <aside class="doc-sidebar" id="doc-sidebar" aria-label="Documentation navigation"></aside>
+    <div class="doc-main">
+      <header class="doc-topbar">
+        <button type="button" class="doc-menu-btn" id="doc-menu-btn" aria-label="Open menu">☰</button>
+        <span class="doc-topbar-title">Settings</span>
+      </header>
+      <article class="doc-content">
+        <h1>Settings &amp; config</h1>
+        <p class="doc-lead">Almost everything you tune in Blossom lives in one AppData folder. You rarely need to edit JSON by hand — the UI writes changes immediately — but it helps to know where files go when you back up, migrate PCs, or share calibrations with a friend on the same resolution.</p>
+
+        <h2>Where everything lives</h2>
+        <div class="doc-code-wrap"><pre><code>%LOCALAPPDATA%\Blossom\</code></pre></div>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Path</th><th>What's inside</th></tr></thead>
+            <tbody>
+              <tr><td><code>app\stable\</code> or <code>app\beta\</code></td><td>Versioned Blossom payload — managed by <code>Blossom.exe</code> / <code>Blossom-beta.exe</code>; do not hand-edit</td></tr>
+              <tr><td><code>config.json</code></td><td>Macro toggles, webhooks, appearance, timings — your main settings file</td></tr>
+              <tr><td><code>macro_calibs.json</code> (or equivalent)</td><td>Calibration coordinates — export/import from Calibrations hub</td></tr>
+              <tr><td><code>themes\</code></td><td>Custom UI <code>.css</code> files + <code>custom-ui.example.css</code></td></tr>
+              <tr><td><code>paths\</code></td><td>Recorded walks: <code>fishing.json</code>, <code>char_align.json</code>, obby routes, etc.</td></tr>
+              <tr><td><code>runtime\</code></td><td>Downloaded OpenCV / WinOCR bundles (hash-verified)</td></tr>
+              <tr><td>Potion <code>.txt</code> files</td><td>Craft recipes per biome — managed from Potion UI</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="doc-tip">
+          <p><strong>Back up before reinstalling:</strong> Copy the whole <code>Blossom</code> folder (or at least config + calibrations + paths) if you wipe AppData.</p>
+        </div>
+
+        <h2>Settings &amp; extras page</h2>
+        <p>The sidebar <strong>Settings &amp; extras</strong> entry opens misc controls that do not fit on Macro:</p>
+        <ul>
+          <li><strong>Roblox username</strong> — matches log files for biome/aura detection</li>
+          <li><strong>Private server link</strong> — Auto Reconnect deep link + webhook Rejoin fields</li>
+          <li><strong>Mouse / input delay</strong> — milliseconds between UI actions; raise if mis-clicks</li>
+          <li><strong>Start / Stop hotkeys</strong> — global hotkeys when configured</li>
+          <li><strong>Fishing failsafe rejoin</strong> — dock stuck recovery (needs Auto Reconnect)</li>
+          <li><strong>Runtime components card</strong> — OpenCV + WinOCR sync status and manual retry</li>
+        </ul>
+
+        <h2 id="reconnect">Auto Reconnect</h2>
+        <div class="doc-section-intro">
+          <p>When Roblox crashes or disconnects mid-macro, Blossom can kill the client, open your private server link, and click the in-game <strong>Start</strong> button you calibrated. It verifies success from Roblox logs.</p>
+        </div>
+        <ol>
+          <li>Enable <strong>Auto Reconnect</strong> on Macro tab</li>
+          <li>Paste <strong>Private server link</strong> in Misc (full Roblox share URL)</li>
+          <li>Calibrate <strong>Reconnect Start</strong> under Movements in Macro Calibrations</li>
+          <li>After reconnect during fishing, next cycle forces a sell if inventory was full</li>
+        </ol>
+
+        <h2 id="paths">Walk paths &amp; playback</h2>
+        <p>Drop JSON recordings in <code>paths\</code>:</p>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>File</th><th>Used by</th></tr></thead>
+            <tbody>
+              <tr><td><code>fishing.json</code></td><td>Fishing prep / dock walk replay</td></tr>
+              <tr><td><code>fishing_sell.json</code></td><td>Optional sell route</td></tr>
+              <tr><td><code>char_align.json</code></td><td>Keys-only camera align before paths (fishing, obby)</td></tr>
+              <tr><td>Obby / custom paths</td><td>Auto obby and other movement modules</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Config key <code>fishing_playback_multiplier</code> speeds or slows path replay. Record with <code>tools/blossom_path_recorder.py</code> from the source repo.</p>
+
+        <h2>Appearance keys (UI)</h2>
+        <p>Stored in the same config file — edited from Appearance tab:</p>
+        <ul>
+          <li><code>ui_theme</code> — pink, dark, light, oled, sakura, midnight, forest, system</li>
+          <li><code>ui_accent</code> — optional accent override</li>
+          <li><code>custom_ui_css</code> — filename in <code>themes\</code> (empty = built-in only)</li>
+          <li><code>ui_scale</code>, window width/height presets, <code>reduce_motion</code></li>
+        </ul>
+        <p>Full theming guide: <a href="theming.html">Theming</a>.</p>
+
+        <h2>Important macro config keys</h2>
+        <p>You normally toggle these in the UI; names help when importing shared configs:</p>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Key</th><th>Feature</th></tr></thead>
+            <tbody>
+              <tr><td><code>fishing_mode</code></td><td>Fishing mode</td></tr>
+              <tr><td><code>merchant_teleporter</code> / <code>auto_merchant_in_limbo</code></td><td>Merchant routes</td></tr>
+              <tr><td><code>enable_potion_crafting</code></td><td>Auto potion craft</td></tr>
+              <tr><td><code>enable_potion_switching</code></td><td>Rotate potion files (requires craft)</td></tr>
+              <tr><td><code>auto_reconnect</code></td><td>Auto Reconnect</td></tr>
+              <tr><td><code>biome_randomizer</code> / <code>strange_controller</code></td><td>BR / SC</td></tr>
+              <tr><td><code>enable_auto_obby</code></td><td>Basic obby</td></tr>
+              <tr><td><code>auto_eden_contract</code></td><td>Eden chat watcher</td></tr>
+              <tr><td><code>webhook_url</code></td><td>Primary Discord webhook</td></tr>
+              <tr><td><code>biome_notifier</code></td><td>Per-biome notify map</td></tr>
+              <tr><td><code>private_server_link</code></td><td>PS URL for reconnect + embeds</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Stable vs beta &amp; licensing</h2>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th></th><th>Stable</th><th>Beta</th></tr></thead>
+            <tbody>
+              <tr><td>Launcher</td><td><code>Blossom.exe</code></td><td><code>Blossom-beta.exe</code></td></tr>
+              <tr><td>License</td><td>None — free</td><td>Discord key on first launch (<code>/getkey</code>)</td></tr>
+              <tr><td>Device binding</td><td>—</td><td>One key per machine; <code>/resethwid</code> in Discord if you change PC</td></tr>
+              <tr><td>Updates</td><td>Stable GitHub releases track</td><td>Beta releases track — separate payload folder</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="doc-callout">
+          <p><strong>What you need to know about beta keys:</strong> Activation checks your key against the license service and binds it to your device. Keys are stored securely on your PC (not plain text). If activation fails after an update, check internet/firewall, ensure you are on the matching beta build, and use <code>/resethwid</code> once if you see a machine mismatch. No secrets or tokens are required on your side beyond the key Discord gives you.</p>
+        </div>
+
+        <h2>Updater behavior</h2>
+        <p>Keep one launcher shortcut forever. On every start, the bootstrapper syncs <code>Blossom.exe</code> (stable) or <code>Blossom-beta.exe</code> (beta) to the newest release on <strong>its channel</strong> — including deliberate rollbacks if the maintainer pulls a bad build. In-app update toasts offer download with progress bar; failed downloads show Retry.</p>
+        <p>Your config, calibrations, paths, and themes survive payload updates — only the inner versioned exe changes.</p>
+
+        <h2>Import / export</h2>
+        <ul>
+          <li>Export calibrations from Macro Calibrations hub — share with friends on identical resolution/UI scale</li>
+          <li>Import config from the UI when migrating setups</li>
+          <li>Never share configs publicly with webhook URLs or private server links attached</li>
+        </ul>
+
+        <p>Next: <a href="features.html">Features &amp; tabs</a> · <a href="getting-started.html">Getting Started</a> · <a href="troubleshooting.html">Troubleshooting</a></p>
+      </article>
+    </div>
+  </div>
+  <script src="/blossom.github.io/assets/js/site.js"></script>
+</body>
+</html>

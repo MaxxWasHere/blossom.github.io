@@ -39,6 +39,11 @@ Or open `index.html` directly (some features work best over HTTP).
 | `index.html` | Home |
 | `what-is-blossom.html` | Overview & FAQ |
 | `getting-started.html` | Install & first run |
+| `features.html` | Features & tabs (macro modules) |
+| `fishing.html` | Fishing mode guide |
+| `merchant.html` | Auto merchant guide |
+| `webhooks.html` | Discord webhooks |
+| `settings.html` | Settings, config paths, licensing |
 | `calibrations.html` | Calibration guide |
 | `theming.html` | Themes & Custom UI |
 | `troubleshooting.html` | Common fixes |

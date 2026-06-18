@@ -57,6 +57,9 @@
         </ol>
 
         <h2>Built-in themes</h2>
+        <div class="doc-section-intro">
+          <p>In the app, open <strong>Appearance</strong> and pick a theme tile. Each palette changes backgrounds, accents, and whether you get a light UI (<code>html.blsm-light-ui</code>). Match system follows Windows dark/light mode. The table below is the full reference if you are writing Custom UI CSS and need exact <code>data-theme</code> keys.</p>
+        </div>
         <p class="doc-search-hint">Use your browser’s find (Ctrl+F) to search theme names or tokens in the tables below.</p>
         <div class="doc-table-wrap">
           <table class="doc-table">
@@ -145,6 +148,9 @@
         <p>The authoritative template is <code>custom-ui.example.css</code> (v3) in your themes folder. Blossom creates it on first Custom UI use. The sections below mirror every § block from that file.</p>
 
         <h2>Design tokens</h2>
+        <div class="doc-section-intro">
+          <p>Tokens are the “palette variables” Blossom reads everywhere — card backgrounds, accent pink, border colors. In Custom UI, edit the <code>body { --accent: … }</code> block first: many users never touch individual selectors because tokens alone reskin the whole app.</p>
+        </div>
         <p>Set these on <code>body</code> or <code>body[data-theme="custom"]</code>. Most components read tokens — changing tokens alone can reskin the entire app.</p>
         <div class="doc-table-wrap">
           <table class="doc-table">
@@ -206,12 +212,17 @@
         </div>
 
         <h2>Selector reference</h2>
+        <div class="doc-section-intro">
+          <p>When tokens are not enough, target these CSS classes. Each § block matches <code>custom-ui.example.css</code> in your themes folder — the same sections you see commented in the template. Skim the intro under each § heading to learn what that part of the app looks like, then use the table when you need the exact selector name.</p>
+        </div>
         <p class="doc-search-hint">Every selector below comes from <code>custom-ui.example.css</code> §1–§20. Search by class name or section number.</p>
 
         <h3>§1 — Design tokens (<code>body</code>)</h3>
-        <p>See the design tokens table above. Target <code>body, body[data-theme="custom"] { … }</code>.</p>
+        <p>The global variable block at the top of your CSS file — see the design tokens table above.</p>
 
+        <div class="doc-ref-block">
         <h3>§2 — Window shell</h3>
+        <p class="doc-section-intro" style="margin-top:0;border-left-color:var(--border);background:transparent;padding:0 0 12px;border:none;">The outer frame: custom title bar, minimize/close buttons, and resize handles. You will see this chrome on every tab — restyle here if you want a different window look without touching macro cards.</p>
         <div class="doc-table-wrap">
           <table class="doc-table">
             <thead><tr><th>Selector</th><th>Element</th></tr></thead>
@@ -229,7 +240,11 @@
           </table>
         </div>
 
+        </div>
+
+        <div class="doc-ref-block">
         <h3>§3 — Launch / download overlay</h3>
+        <p class="doc-section-intro" style="margin-top:0;border-left-color:var(--border);background:transparent;padding:0 0 12px;border:none;">The pink aurora splash when Blossom starts, downloads updates, or syncs runtime components. Users only see this briefly — but a polished overlay makes custom themes feel complete.</p>
         <div class="doc-table-wrap">
           <table class="doc-table">
             <thead><tr><th>Selector</th><th>Element</th></tr></thead>
@@ -246,7 +261,11 @@
           </table>
         </div>
 
+        </div>
+
+        <div class="doc-ref-block">
         <h3>§4 — Sidebar</h3>
+        <p class="doc-section-intro" style="margin-top:0;border-left-color:var(--border);background:transparent;padding:0 0 12px;border:none;">Left navigation — Blossom logo, grouped sections (Macro, App, etc.), and the active tab highlight. This is what players stare at for hours; most full reskins spend time here.</p>
         <div class="doc-table-wrap">
           <table class="doc-table">
             <thead><tr><th>Selector</th><th>Element</th></tr></thead>
@@ -268,7 +287,11 @@
           </table>
         </div>
 
+        </div>
+
+        <div class="doc-ref-block">
         <h3>§5 — Top header bar</h3>
+        <p class="doc-section-intro" style="margin-top:0;border-left-color:var(--border);background:transparent;padding:0 0 12px;border:none;">Start and Stop live here, plus pin-to-top and the macro status label. Green/red buttons are intentional affordances — many themes only tint borders while keeping success/danger hues readable.</p>
         <div class="doc-table-wrap">
           <table class="doc-table">
             <thead><tr><th>Selector</th><th>Element</th></tr></thead>
@@ -285,7 +308,11 @@
           </table>
         </div>
 
+        </div>
+
+        <div class="doc-ref-block">
         <h3>§6 — Main content &amp; routes</h3>
+        <p class="doc-section-intro" style="margin-top:0;border-left-color:var(--border);background:transparent;padding:0 0 12px;border:none;">The scrollable middle of each tab. Use <code>data-blossom-page</code> attributes to style Macro, Webhook, or Calibrations differently — handy when one tab needs denser layout tweaks.</p>
         <div class="doc-table-wrap">
           <table class="doc-table">
             <thead><tr><th>Selector</th><th>Element</th></tr></thead>
@@ -305,7 +332,11 @@
           </table>
         </div>
 
+        </div>
+
+        <div class="doc-ref-block">
         <h3>§7 — Cards &amp; injected panels</h3>
+        <p class="doc-section-intro" style="margin-top:0;border-left-color:var(--border);background:transparent;padding:0 0 12px;border:none;">Every settings block is a card — Macro toggles, Appearance, calibrations hub, biome webhooks, runtime sync. Injected IDs like <code>#blsm-appearance-card</code> are Blossom-owned panels the React shell mounts for you.</p>
         <div class="doc-table-wrap">
           <table class="doc-table">
             <thead><tr><th>Selector</th><th>Element</th></tr></thead>
@@ -328,7 +359,11 @@
           </table>
         </div>
 
+        </div>
+
+        <div class="doc-ref-block">
         <h3>§8 — Forms, inputs &amp; toggles</h3>
+        <p class="doc-section-intro" style="margin-top:0;border-left-color:var(--border);background:transparent;padding:0 0 12px;border:none;">Text fields, hints, and the pill-shaped toggle switches on Macro and Settings. Readable focus states matter — players edit webhook URLs and potion names here.</p>
         <div class="doc-table-wrap">
           <table class="doc-table">
             <thead><tr><th>Selector</th><th>Element</th></tr></thead>
@@ -381,7 +416,11 @@
           </table>
         </div>
 
+        </div>
+
+        <div class="doc-ref-block">
         <h3>§11 — Calibrations hub</h3>
+        <p class="doc-section-intro" style="margin-top:0;border-left-color:var(--border);background:transparent;padding:0 0 12px;border:none;">The unified Macro Calibrations page — horizontal category tabs, Mark rows, and mouse calibration card. Legacy accordions are hidden; style the hub selectors if you want calibrations to match your skin.</p>
         <div class="doc-table-wrap">
           <table class="doc-table">
             <thead><tr><th>Selector</th><th>Element</th></tr></thead>
@@ -399,7 +438,11 @@
           </table>
         </div>
 
+        </div>
+
+        <div class="doc-ref-block">
         <h3>§12 — Biome notifier / webhooks</h3>
+        <p class="doc-section-intro" style="margin-top:0;border-left-color:var(--border);background:transparent;padding:0 0 12px;border:none;">The big biome table on the Webhook tab — notify toggles, user ID fields, rare-biome footnote. Rows scroll inside the card on shorter windows.</p>
         <div class="doc-table-wrap">
           <table class="doc-table">
             <thead><tr><th>Selector</th><th>Element</th></tr></thead>

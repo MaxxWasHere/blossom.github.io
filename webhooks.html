@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Discord webhooks — Blossom Docs</title>
+  <meta name="description" content="Configure Blossom Discord webhooks — biome notifier, merchant pings, aura detection, and Eden alerts.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sarpanch:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/blossom.github.io/assets/css/site.css">
+</head>
+<body data-page="webhooks" data-toc>
+  <div class="doc-overlay" id="doc-overlay"></div>
+  <div class="doc-app">
+    <aside class="doc-sidebar" id="doc-sidebar" aria-label="Documentation navigation"></aside>
+    <div class="doc-main">
+      <header class="doc-topbar">
+        <button type="button" class="doc-menu-btn" id="doc-menu-btn" aria-label="Open menu">☰</button>
+        <span class="doc-topbar-title">Webhooks</span>
+      </header>
+      <article class="doc-content">
+        <h1>Discord webhooks</h1>
+        <p class="doc-lead">Webhooks let Blossom whisper to your Discord server when something worth your attention happens — a rare biome, Mari in shop, a godroll aura, or Eden spawning. You bring the webhook URL; Blossom formats the embed and optional pings.</p>
+
+        <div class="doc-callout">
+          <p><strong>Keep URLs private.</strong> Anyone with your webhook URL can post to that channel. Do not share screenshots that show the full URL. Blossom stores URLs in your local config only — they are never uploaded to GitHub or the license server.</p>
+        </div>
+
+        <h2>Where to configure</h2>
+        <p>Open the <strong>Webhook</strong> tab in Blossom. The <strong>Biome Notifier</strong> hub sits at the top — a table of every biome with notify toggles, Discord user IDs, role IDs, and rare-biome ping modes. Merchant and aura settings live on their respective tabs but use the same webhook URL fields in config.</p>
+
+        <h2>Biome notifier</h2>
+        <div class="doc-section-intro">
+          <p>After biome detection is calibrated and running, Blossom reads Roblox logs for rolls. When a biome you enabled fires, it sends a Blossom-styled embed with biome info and your <strong>private server rejoin link</strong> so you can hop back in quickly.</p>
+        </div>
+        <ul>
+          <li>Toggle notify per biome in the hub table</li>
+          <li>Add multiple <strong>user IDs</strong> or <strong>role IDs</strong> to ping (validation errors are clearer on current builds if IDs are malformed)</li>
+          <li><strong>Rare biome mode</strong> — choose how aggressive pings are for high-tier biomes (see footnote under the table)</li>
+          <li>Aurora and Eggland were removed from the notifier list in recent releases</li>
+        </ul>
+        <div class="doc-tip">
+          <p>Your <strong>private server link</strong> in Misc settings fills the Rejoin field on biome and merchant embeds. Paste the same link you use for Auto Reconnect.</p>
+        </div>
+
+        <h2>Merchant webhooks</h2>
+        <p>Two moments can notify Discord:</p>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Event</th><th>What you get</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>Merchant found</strong></td>
+                <td>Embed when OCR detects Mari, Jester, or Rin — includes rejoin link; throttled so duplicate spam is reduced</td>
+              </tr>
+              <tr>
+                <td><strong>Shop screenshot</strong> (optional)</td>
+                <td>Full-screen capture after shop opens — toggle <code>merchant_shop_webhook</code> / UI equivalent</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Per-merchant ping IDs can target different roles when each shop appears. Details: <a href="merchant.html">Auto merchant guide</a>.</p>
+
+        <h2>Aura detection (Auras tab)</h2>
+        <p>Rare aura rolls use log-based detection with thresholds you set on the <strong>Auras</strong> tab:</p>
+        <ul>
+          <li>Minimum rarity for webhook</li>
+          <li>Force-ping list for specific auras</li>
+          <li>Discord user ID to mention</li>
+          <li>Optional aura screenshot in the embed</li>
+        </ul>
+        <p>Embeds use Blossom styling — rarity, player name, and artwork when available.</p>
+
+        <h2>Eden contract</h2>
+        <p>With <strong>Auto Eden Contract</strong> enabled on Macro, Blossom watches chat for the official “Eden has appeared” line (OCR + spoof guard, ~40 minute cooldown). On a real hit, it pings your webhook with a chat screenshot. Uses the same chat OCR calibrations as other features.</p>
+
+        <h2>Currency &amp; inventory screenshots</h2>
+        <p>Periodical aura or inventory screenshots can run on timers when enabled on Macro. If <strong>Auto Potion Craft</strong> is on, currency screenshot webhooks are disabled and the currency calibration section hides — crafting and currency shots conflict.</p>
+
+        <h2>Setup walkthrough</h2>
+        <ol class="doc-steps">
+          <li>In Discord: channel settings → Integrations → Webhooks → New Webhook → copy URL</li>
+          <li>Paste URL into Blossom Webhook tab (or <code>webhook_url</code> in config)</li>
+          <li>Set private server link in Misc for rejoin fields</li>
+          <li>Enable biome detection + calibrate before expecting biome pings</li>
+          <li>Test with a biome you can force or a debug roll — check channel permissions</li>
+        </ol>
+
+        <h2>Validation &amp; privacy</h2>
+        <ul>
+          <li>User and role IDs must be numeric snowflakes — Blossom validates and shows readable errors</li>
+          <li>Webhooks send from your PC when events fire; no Blossom cloud relay</li>
+          <li>Do not commit <code>config.json</code> with webhook URLs to public repos</li>
+        </ul>
+
+        <div class="doc-faq-grid">
+          <div class="doc-faq-item">
+            <h3>No pings at all</h3>
+            <p>Confirm webhook URL, bot permissions in channel, and that biome detection or merchant OCR actually triggered in-game first.</p>
+          </div>
+          <div class="doc-faq-item">
+            <h3>Pings but no @mention</h3>
+            <p>Check user/role ID spelling. Role pings need the role to be mentionable in that channel.</p>
+          </div>
+          <div class="doc-faq-item">
+            <h3>Duplicate merchant pings</h3>
+            <p>Found webhooks throttle per merchant name (~45s). If OCR flaps between names, recalibrate OCR region.</p>
+          </div>
+        </div>
+
+        <p>Macro context: <a href="features.html">Features &amp; tabs</a> · Fixes: <a href="troubleshooting.html">Troubleshooting</a></p>
+      </article>
+    </div>
+  </div>
+  <script src="/blossom.github.io/assets/js/site.js"></script>
+</body>
+</html>

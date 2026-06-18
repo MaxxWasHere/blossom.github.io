@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Auto merchant — Blossom Docs</title>
+  <meta name="description" content="Blossom auto merchant guide — OCR detection, buy lists, teleporter route, Set Max, and return to Limbo.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sarpanch:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/blossom.github.io/assets/css/site.css">
+</head>
+<body data-page="merchant" data-toc>
+  <div class="doc-overlay" id="doc-overlay"></div>
+  <div class="doc-app">
+    <aside class="doc-sidebar" id="doc-sidebar" aria-label="Documentation navigation"></aside>
+    <div class="doc-main">
+      <header class="doc-topbar">
+        <button type="button" class="doc-menu-btn" id="doc-menu-btn" aria-label="Open menu">☰</button>
+        <span class="doc-topbar-title">Merchant</span>
+      </header>
+      <article class="doc-content">
+        <h1>Auto merchant</h1>
+        <p class="doc-lead">The merchant loop is one of Blossom's oldest tricks — press E, read the shop name off your screen, buy what you configured, and optionally ping Discord when Mari, Jester, or Rin appears. You set the lists; Blossom does the clicking.</p>
+
+        <div class="doc-callout">
+          <p><strong>WinOCR required.</strong> Merchant name detection uses Windows OCR (not Tesseract). Blossom downloads the WinOCR bundle with other runtime components; you also need the Windows <strong>en-US</strong> OCR language pack. The “OCR unavailable” notice only appears when a feature actually needs OCR — not on every startup.</p>
+        </div>
+
+        <h2>The basic shop flow</h2>
+        <p>When auto merchant is enabled and off cooldown (~190 seconds between runs), Blossom:</p>
+        <ol class="doc-steps">
+          <li>Presses your calibrated <strong>interact</strong> key (usually E) several times near the merchant</li>
+          <li>Clicks through dialogue at <code>merchant_dialogue_box</code></li>
+          <li>OCR-scans for <strong>Mari</strong>, <strong>Jester</strong>, or <strong>Rin</strong> (with common misread variants)</li>
+          <li>Opens the shop, buys enabled items from your per-merchant lists</li>
+          <li>Optionally sends a Discord “merchant found” ping and shop screenshot</li>
+        </ol>
+
+        <h2>Buy lists &amp; Set Max</h2>
+        <div class="doc-section-intro">
+          <p>On the Merchant tab (and in config), you choose which items to buy and how many. Mari and Jester use a shared <strong>Set Max</strong> calibration — Blossom clicks Max, then Purchase. Rin has no Max button, so Blossom types the amount instead.</p>
+        </div>
+        <ul>
+          <li>Calibrate all <strong>five shop slot</strong> positions (or rely on offset from slot 1)</li>
+          <li>Mark <strong>Set Max</strong> once in Macro Calibrations — used for every non-Rin merchant</li>
+          <li>Mark <strong>Purchase</strong> and amount field if you type quantities</li>
+          <li>Per-merchant item toggles: <code>mari_Items</code>, <code>jester_Items</code>, <code>rin_Items</code> in config (managed from the UI)</li>
+        </ul>
+
+        <h2>Teleporter route</h2>
+        <p>Some setups shop through the <strong>merchant teleporter</strong> item instead of standing at Limbo portals. Enable <strong>Auto Merchant Teleporter</strong> on the Macro tab, then use the Merchant tab's three-step banner:</p>
+        <p><strong>Teleporter → Shop → Portable Crack</strong></p>
+        <ol>
+          <li>Open inventory → Items tab → search “teleport” → use first slot</li>
+          <li>Run the normal merchant handler at the teleporter destination</li>
+          <li>Optionally return to Limbo with <strong>Portable Crack</strong> (search “crack”, amount 1, Use)</li>
+        </ol>
+        <div class="doc-tip">
+          <p>Toggle <strong>Return to Limbo after merchant teleporter</strong> on the Merchant tab if you want the crack step automatically. Calibrate inventory search and item slots under Movements / inventory calibrations.</p>
+        </div>
+        <p><strong>Note:</strong> Teleporter and Limbo merchant features are disabled while <strong>Fishing mode</strong> is active — fishing owns the session until you turn it off.</p>
+
+        <h2>Limbo merchant</h2>
+        <p><strong>Auto Merchant in Limbo</strong> runs the shop loop when you are already in Limbo without the teleporter prelude. Useful for standard portal camping setups.</p>
+
+        <h2>Discord pings</h2>
+        <p>When a merchant is found, Blossom can post to your webhook URL with an embed and your <strong>private server rejoin link</strong>. Optional shop screenshot webhooks fire after purchases. Configure URLs and per-merchant ping roles on the Webhook tab — <a href="webhooks.html">webhooks guide</a>.</p>
+
+        <h2>Calibrations checklist</h2>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Mark point</th><th>Why</th></tr></thead>
+            <tbody>
+              <tr><td><code>merchant_dialogue_box</code></td><td>Dialogue click target after interact</td></tr>
+              <tr><td><code>merchant_open_button</code></td><td>Opens shop UI</td></tr>
+              <tr><td><code>merchant_slot_1</code> … <code>merchant_slot_5</code></td><td>Buy click positions</td></tr>
+              <tr><td><code>merchant_set_max_button</code></td><td>Max quantity (Mari/Jester)</td></tr>
+              <tr><td><code>merchant_purchase</code> / amount field</td><td>Confirm buy</td></tr>
+              <tr><td>OCR region / failsafe</td><td>Name detection when layout shifts</td></tr>
+              <tr><td>Inventory tab, search, Portable Crack</td><td>Teleporter + Limbo return</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Tips for reliable OCR</h2>
+        <ul>
+          <li>Fullscreen Roblox at fixed resolution — same as calibration day</li>
+          <li>Use <strong>Arial</strong> or <strong>Rubik</strong> UI font in Roblox</li>
+          <li>Mouse delay 1000–2000 ms if names are misread or clicks double-fire</li>
+          <li>Enable <strong>OCR failsafe</strong> on Macro tab for backup regions</li>
+        </ul>
+
+        <div class="doc-warning">
+          <p>If merchant runs but buys the wrong slot, recalibrate all five positions — do not rely on pixel offsets alone after UI scale changes.</p>
+        </div>
+
+        <h2>Still stuck?</h2>
+        <p><a href="calibrations.html">Calibrations</a> · <a href="troubleshooting.html">Troubleshooting</a> · <a href="https://youtu.be/s2S7Bncx9ns">Video tutorial</a></p>
+      </article>
+    </div>
+  </div>
+  <script src="/blossom.github.io/assets/js/site.js"></script>
+</body>
+</html>

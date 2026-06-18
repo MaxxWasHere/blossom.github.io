@@ -7,13 +7,33 @@
 
   const NAV = [
     {
-      label: "Guides",
+      label: "Start here",
       items: [
         { id: "home", href: "index.html", label: "Home" },
         { id: "what-is-blossom", href: "what-is-blossom.html", label: "What is Blossom?" },
         { id: "getting-started", href: "getting-started.html", label: "Getting Started" },
+      ],
+    },
+    {
+      label: "Macro guides",
+      items: [
+        { id: "features", href: "features.html", label: "Features & tabs" },
+        { id: "fishing", href: "fishing.html", label: "Fishing mode" },
+        { id: "merchant", href: "merchant.html", label: "Auto merchant" },
+        { id: "webhooks", href: "webhooks.html", label: "Discord webhooks" },
         { id: "calibrations", href: "calibrations.html", label: "Calibrations" },
+        { id: "settings", href: "settings.html", label: "Settings & config" },
+      ],
+    },
+    {
+      label: "Customize",
+      items: [
         { id: "theming", href: "theming.html", label: "Theming" },
+      ],
+    },
+    {
+      label: "Help",
+      items: [
         { id: "troubleshooting", href: "troubleshooting.html", label: "Troubleshooting" },
         { id: "credits", href: "credits.html", label: "Credits" },
       ],
@@ -64,7 +84,7 @@
         <img src="${LOGO}" alt="Blossom" width="40" height="40" />
         <div class="doc-brand-text">
           <h1>Blossom</h1>
-          <span>Sol's RNG macro docs</span>
+          <span>Sol's RNG macro — your guide</span>
         </div>
       </a>
       ${sections}

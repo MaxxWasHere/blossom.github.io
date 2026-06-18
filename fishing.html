@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fishing mode — Blossom Docs</title>
+  <meta name="description" content="Set up Blossom fishing mode — bite detection, reel minigame, dock walk, sell trips, and failsafe reconnect.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sarpanch:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/blossom.github.io/assets/css/site.css">
+</head>
+<body data-page="fishing" data-toc>
+  <div class="doc-overlay" id="doc-overlay"></div>
+  <div class="doc-app">
+    <aside class="doc-sidebar" id="doc-sidebar" aria-label="Documentation navigation"></aside>
+    <div class="doc-main">
+      <header class="doc-topbar">
+        <button type="button" class="doc-menu-btn" id="doc-menu-btn" aria-label="Open menu">☰</button>
+        <span class="doc-topbar-title">Fishing</span>
+      </header>
+      <article class="doc-content">
+        <h1>Fishing mode</h1>
+        <p class="doc-lead">Fishing mode is the full dock loop from the original Noteab macro — brought into Blossom with vision-based bite detection, optional sell trips, and recovery when you get stuck. Turn it on when you want fish and currency without babysitting the rod.</p>
+
+        <div class="doc-callout">
+          <p><strong>Before you start:</strong> Enable <strong>Fishing Mode</strong> on the Macro tab, then calibrate fishing regions in <strong>Macro Calibrations</strong>. Without calibrations, Blossom cannot see the bite bar or click the reel reliably.</p>
+        </div>
+
+        <h2>What happens each cycle</h2>
+        <p>At a high level, Blossom repeats this loop while fishing is enabled:</p>
+        <ol>
+          <li><strong>Prep</strong> — optional collections menu, character align, walk to dock (default path or your <code>fishing.json</code> recording)</li>
+          <li><strong>Cast &amp; wait</strong> — watches for a bite (screen capture + bar color detection)</li>
+          <li><strong>Reel minigame</strong> — keeps the bar in the green zone by clicking at your calibrated position</li>
+          <li><strong>Optional sell</strong> — walks to fish shop, sells inventory, returns to fishing</li>
+          <li><strong>Repeat</strong> — other farm modules stay paused until fishing stops or yields to potion craft</li>
+        </ol>
+
+        <div class="doc-tip">
+          <p><strong>First run note:</strong> The first time you use fishing on a fresh install, Blossom may download the OpenCV vision component (~47 MB saved from the main installer). It verifies the download by checksum and caches it under <code>%LOCALAPPDATA%\Blossom\runtime</code>. If download fails, a NumPy fallback still works — just slightly slower.</p>
+        </div>
+
+        <h2>Calibrations you need</h2>
+        <div class="doc-section-intro">
+          <p>Open <strong>Macro Calibrations → Fishing</strong>. Mark each point while Roblox is fullscreen at the same resolution you will use for AFK. If a button moves after a game update, re-mark only that row.</p>
+        </div>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Calibration</th><th>Purpose</th></tr></thead>
+            <tbody>
+              <tr><td>Fishing bar region</td><td>Where the reel minigame bar appears on screen</td></tr>
+              <tr><td>Bite detect pixel</td><td>Corner indicator when a fish bites</td></tr>
+              <tr><td>Reel click position</td><td>Where to click during the minigame</td></tr>
+              <tr><td>Collections / aura menu</td><td>Prep steps before walking to dock (if you use them)</td></tr>
+              <tr><td>Shop open, sell tab, sell all</td><td>Optional sell trip at the fish shop</td></tr>
+              <tr><td>Captain Flarg dialogue</td><td>Dialogue clicks on the fishing route</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Full calibration context: <a href="calibrations.html">Calibrations guide</a>.</p>
+
+        <h2>Walk paths</h2>
+        <p>Blossom ships default walks to the dock and seller. For awkward layouts or custom routes, record your own:</p>
+        <ul>
+          <li><code>paths/fishing.json</code> — dock approach and fishing prep replay</li>
+          <li><code>paths/fishing_sell.json</code> — optional sell route</li>
+          <li><code>paths/char_align.json</code> — keys-only alignment before paths play (no mouse jitter)</li>
+        </ul>
+        <p>Record paths with <code>tools/blossom_path_recorder.py</code> in the source repo, or copy community presets that match your resolution. Set <code>fishing_playback_multiplier</code> in config if you need faster or slower replay.</p>
+
+        <div class="doc-callout">
+          <p><strong>Why paths matter:</strong> Roblox camera and collision differ per account setup. A recorded path that works on your PC beats a generic walk when you fish for hours and cannot afford getting stuck on a railing.</p>
+        </div>
+
+        <h2>Sell trips &amp; inventory</h2>
+        <p>When sell-after-fishing is enabled, Blossom navigates to the fish shop, opens the sell tab, and clears your catch. After a successful <strong>Auto Reconnect</strong>, the next fishing cycle forces a sell first so a full inventory from a disconnect does not block new catches.</p>
+
+        <h2>Failsafes — when you get stuck</h2>
+        <p>Long AFK sessions hit edge cases. Blossom has recovery paths so you are not left in a menu overnight:</p>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Situation</th><th>What Blossom does</th><th>What you enable</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>60s at dock, no bite</td>
+                <td>Retries in-game UI nav (backslash, S, A, Enter), then reconnects if still stuck</td>
+                <td><strong>Auto Reconnect</strong> + <strong>Fishing failsafe rejoin</strong> in Misc</td>
+              </tr>
+              <tr>
+                <td>90s stuck in prep (collections, walking)</td>
+                <td>Same failsafe rejoin path</td>
+                <td>Auto Reconnect + fishing failsafe</td>
+              </tr>
+              <tr>
+                <td>Chat window blocking clicks</td>
+                <td>Debounced close-chat clicks; dock failsafe closes chat after UI nav</td>
+                <td>Keep calibrations accurate; update to latest build</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Reconnect setup: <a href="settings.html#reconnect">Private server link</a> + <strong>Reconnect Start</strong> calibration under Movements.</p>
+
+        <h2>Interaction with other modules</h2>
+        <ul>
+          <li>While fishing runs, merchant, daily quests, potion craft (unless it takes priority), obby, BR/SC, and biome selector pause.</li>
+          <li>Merchant teleporter and Limbo merchant toggles are ignored during fishing mode.</li>
+          <li>Biome detection and webhooks can still run from logs in the background.</li>
+        </ul>
+
+        <h2>Troubleshooting fishing</h2>
+        <div class="doc-faq-grid">
+          <div class="doc-faq-item">
+            <h3>Reel minigame misses the bar</h3>
+            <p>Recalibrate bar region and click position. Raise mouse delay if clicks fire before the UI settles.</p>
+          </div>
+          <div class="doc-faq-item">
+            <h3>Never detects bites</h3>
+            <p>Check bite pixel calibration and that OpenCV installed (runtime card on Settings). NumPy fallback works but needs accurate regions.</p>
+          </div>
+          <div class="doc-faq-item">
+            <h3>Stuck at dock overnight</h3>
+            <p>Enable failsafe rejoin + Auto Reconnect. Verify private server link and Reconnect Start calibration.</p>
+          </div>
+          <div class="doc-faq-item">
+            <h3>Sell trip fails</h3>
+            <p>Re-mark shop buttons. Consider a custom <code>fishing_sell.json</code> path if the default walk does not match your layout.</p>
+          </div>
+        </div>
+        <p>More fixes: <a href="troubleshooting.html">Troubleshooting</a>.</p>
+      </article>
+    </div>
+  </div>
+  <script src="/blossom.github.io/assets/js/site.js"></script>
+</body>
+</html>
