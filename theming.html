@@ -48,6 +48,13 @@
 
         <p>JSON theme files from older builds are retired. Your <code>.json</code> files stay in the themes folder for reference; Blossom falls back to your saved built-in theme and shows a one-time notice.</p>
 
+        <h2>Expressive UI</h2>
+        <p>Blossom ships a <strong>Material 3 Expressive</strong> motion layer on top of the midnight pink theme — emphasized easing, spring-like micro-interactions, tonal card surfaces, and state-layer feedback on buttons and sidebar nav. It is tuned for the macro app: page cards fade up on tab change, toggles overshoot slightly, dropdowns reveal with a container transform, and Start/Stop pulse when the macro state flips.</p>
+        <div class="doc-tip">
+          <p><strong>Reduce motion respects you.</strong> Turn on <strong>Reduce motion</strong> under Appearance to disable expressive animations (<code>html.blsm-reduce-motion</code>). The docs site shares the same easing tokens but keeps motion calmer than the app.</p>
+        </div>
+        <p>Custom UI CSS loads after the expressive layer, so your theme can override motion tokens such as <code>--m3e-ease-emphasized-decel</code> and <code>--m3e-duration-medium</code> if you want a quieter or snappier feel.</p>
+
         <h2>Quick start — Custom UI in 5 steps</h2>
         <ol>
           <li>Open Blossom → <strong>Appearance</strong> → click <strong>Open themes folder</strong> (or browse to <code>%LOCALAPPDATA%\Blossom\themes\</code>).</li>
