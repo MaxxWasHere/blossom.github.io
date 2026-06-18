@@ -15,7 +15,7 @@
       ],
     },
     {
-      label: "Macro guides",
+      label: "Guides",
       items: [
         { id: "features", href: "features.html", label: "Features & tabs" },
         { id: "fishing", href: "fishing.html", label: "Fishing mode" },
@@ -84,7 +84,6 @@
         <img src="${LOGO}" alt="Blossom" width="40" height="40" />
         <div class="doc-brand-text">
           <h1>Blossom</h1>
-          <span>Documentation</span>
         </div>
       </a>
       ${sections}
