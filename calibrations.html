@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calibrations — Blossom Docs</title>
+  <meta name="description" content="How to calibrate Blossom for Sol's RNG — merchant, fishing, reconnect, and more.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sarpanch:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/blossom.github.io/assets/css/site.css">
+</head>
+<body data-page="calibrations">
+  <div class="doc-overlay" id="doc-overlay"></div>
+  <div class="doc-app">
+    <aside class="doc-sidebar" id="doc-sidebar" aria-label="Documentation navigation"></aside>
+    <div class="doc-main">
+      <header class="doc-topbar">
+        <button type="button" class="doc-menu-btn" id="doc-menu-btn" aria-label="Open menu">☰</button>
+        <span class="doc-topbar-title">Calibrations</span>
+      </header>
+      <article class="doc-content">
+        <h1>Calibrations</h1>
+        <p class="doc-lead">Blossom reads screen positions and game logs. <strong>Calibrations are required</strong> for merchant OCR, fishing, inventory actions, and reconnect.</p>
+
+        <div class="doc-btn-row">
+          <a class="doc-btn" href="https://youtu.be/s2S7Bncx9ns">Watch video tutorial</a>
+        </div>
+
+        <h2>Macro Calibrations hub</h2>
+        <p>Open <strong>Macro Calibrations</strong> in the sidebar. The unified hub groups calibrations by feature instead of scattered legacy panels.</p>
+
+        <h3>Tips</h3>
+        <ul>
+          <li>Match Roblox <strong>resolution and UI scale</strong> to what you calibrated (fullscreen recommended).</li>
+          <li>Set <strong>mouse delay</strong> to 1000–2000 ms if OCR mis-clicks; Arial or Rubik font in Roblox helps OCR.</li>
+          <li>Use <strong>presets</strong> when your resolution/scale/mode matches a community preset (from upstream <code>macro_calibs_preset.json</code>).</li>
+        </ul>
+
+        <h2>Common calibration groups</h2>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Feature</th><th>What to calibrate</th></tr></thead>
+            <tbody>
+              <tr><td>Merchant</td><td>Shop regions, talk/buy clicks, OCR failsafe</td></tr>
+              <tr><td>Fishing</td><td>Rod, reel minigame, dock walk, sell</td></tr>
+              <tr><td>Inventory / BR / SC</td><td>Search bar, item slots (Portable Crack / Limbo return)</td></tr>
+              <tr><td>Reconnect</td><td>Start button after Roblox relaunch, private server link in Settings</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Import a full preset JSON from GitHub if you share configs with your resolution — otherwise calibrate manually once per PC.</p>
+
+        <h2>After updating Blossom</h2>
+        <p>Re-check calibrations if a game update moves UI elements. Your config file is preserved across app updates.</p>
+
+        <h2>Still stuck?</h2>
+        <p>See <a href="troubleshooting.html">Troubleshooting</a> or ask in the community Discord.</p>
+      </article>
+    </div>
+  </div>
+  <script src="/blossom.github.io/assets/js/site.js"></script>
+</body>
+</html>

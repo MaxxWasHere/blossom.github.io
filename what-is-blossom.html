@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What is Blossom? — Blossom Docs</title>
+  <meta name="description" content="Overview of Blossom macro for Sol's RNG.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sarpanch:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/blossom.github.io/assets/css/site.css">
+</head>
+<body data-page="what-is-blossom">
+  <div class="doc-overlay" id="doc-overlay"></div>
+  <div class="doc-app">
+    <aside class="doc-sidebar" id="doc-sidebar" aria-label="Documentation navigation"></aside>
+    <div class="doc-main">
+      <header class="doc-topbar">
+        <button type="button" class="doc-menu-btn" id="doc-menu-btn" aria-label="Open menu">☰</button>
+        <span class="doc-topbar-title">What is Blossom?</span>
+      </header>
+      <article class="doc-content">
+        <h1>What is Blossom?</h1>
+        <p class="doc-lead">Blossom runs Sol's RNG for you — biomes, auras, merchants, potions, fishing — while you're AFK.</p>
+        <p>Fork of the Coteab macro with a new UI and updated modules. The lineage runs <strong>Noteab → Coteab → Blossom</strong>.</p>
+
+        <h2>What it does</h2>
+        <ul>
+          <li>Reads game logs for biome and aura detection (works well once calibrated)</li>
+          <li>Auto merchant — OCR finds Mari / Jester / Rin, buys from your lists</li>
+          <li>Auto potions in any biome, including GLITCHED, DREAMSPACE, CYBERSPACE</li>
+          <li>Fishing mode — bite detect, reel minigame, walk to dock, optional sell</li>
+          <li>Discord webhooks — optional pings when rare biomes or merchants show up</li>
+          <li>Anti-AFK mouse activity and session stats in the side panel</li>
+        </ul>
+
+        <h2>Get it</h2>
+        <ul>
+          <li><strong>Stable:</strong> <a href="https://github.com/MaxxWasHere/blossom/releases">MaxxWasHere/blossom releases</a></li>
+          <li><strong>Beta:</strong> <a href="https://github.com/MaxxWasHere/blossombeta/releases">MaxxWasHere/blossombeta releases</a> (license key required)</li>
+        </ul>
+
+        <h2>Setup</h2>
+        <ol>
+          <li>Calibrate in <strong>Macro Calibrations</strong> — <a href="https://youtu.be/s2S7Bncx9ns">video tutorial</a></li>
+          <li>Turn on automations on the Macro tab</li>
+          <li>Beta: enter your key on the activation screen</li>
+          <li>Webhooks optional — Webhook tab for Discord alerts</li>
+        </ol>
+        <p>Advanced: custom walk paths via <code>tools/blossom_path_recorder.py</code> in the source repo.</p>
+
+        <h2>FAQ</h2>
+        <div class="doc-card cornered"><span class="corner-bl" aria-hidden="true"></span><span class="corner-br" aria-hidden="true"></span>
+          <p><strong>Virus?</strong> No. Source is public; Windows Defender often flags packed exes.</p>
+        </div>
+        <div class="doc-card cornered"><span class="corner-bl" aria-hidden="true"></span><span class="corner-br" aria-hidden="true"></span>
+          <p><strong>Black / white window?</strong> Install <a href="https://developer.microsoft.com/microsoft-edge/webview2/">WebView2</a>.</p>
+        </div>
+        <div class="doc-card cornered"><span class="corner-bl" aria-hidden="true"></span><span class="corner-br" aria-hidden="true"></span>
+          <p><strong>Misdetects items?</strong> Recalibrate OCR failsafe or raise input delay to 1000–2000 ms.</p>
+        </div>
+        <p>Licensed Apache 2.0. See <a href="credits.html">Credits</a>.</p>
+      </article>
+    </div>
+  </div>
+  <script src="/blossom.github.io/assets/js/site.js"></script>
+</body>
+</html>

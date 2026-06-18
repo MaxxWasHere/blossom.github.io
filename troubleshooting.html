@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Troubleshooting — Blossom Docs</title>
+  <meta name="description" content="Common Blossom macro fixes — WebView2, OCR, admin, beta licensing.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sarpanch:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/blossom.github.io/assets/css/site.css">
+</head>
+<body data-page="troubleshooting">
+  <div class="doc-overlay" id="doc-overlay"></div>
+  <div class="doc-app">
+    <aside class="doc-sidebar" id="doc-sidebar" aria-label="Documentation navigation"></aside>
+    <div class="doc-main">
+      <header class="doc-topbar">
+        <button type="button" class="doc-menu-btn" id="doc-menu-btn" aria-label="Open menu">☰</button>
+        <span class="doc-topbar-title">Troubleshooting</span>
+      </header>
+      <article class="doc-content">
+        <h1>Troubleshooting</h1>
+        <p class="doc-lead">Common fixes when Blossom won't start, mis-clicks, or misreads the screen.</p>
+
+        <h2>App won't start or window is blank</h2>
+        <ul>
+          <li>Install <a href="https://developer.microsoft.com/microsoft-edge/webview2/">Microsoft WebView2</a>.</li>
+          <li>Run <strong>Blossom.exe</strong> from releases — not only the inner <code>Blossom-x.y.z.exe</code> unless you know you need it.</li>
+          <li>Try running as <strong>administrator</strong>.</li>
+          <li>Full reinstall: delete <code>%LOCALAPPDATA%\Blossom\</code> only if you have a config backup.</li>
+        </ul>
+
+        <h2>Antivirus / "virus" warning</h2>
+        <p>Blossom is open source. Windows Defender often flags <strong>PyInstaller</strong> exes. Scan on <a href="https://www.virustotal.com/">VirusTotal</a> or run in a VM if unsure.</p>
+
+        <h2>Macro idle or clicks miss</h2>
+        <ul>
+          <li>Run Blossom as administrator.</li>
+          <li>Keep Roblox focused; match calibrated resolution and UI scale.</li>
+          <li>Increase <strong>mouse delay</strong> (1000–2000 ms).</li>
+          <li>Recalibrate OCR failsafe — see <a href="calibrations.html">Calibrations</a>.</li>
+        </ul>
+
+        <h2>Wrong potions / OCR misreads</h2>
+        <ul>
+          <li>Recalibrate merchant / OCR regions.</li>
+          <li>Use Arial or Rubik font in Roblox settings.</li>
+          <li>Raise input delay.</li>
+        </ul>
+
+        <h2>Beta: license errors</h2>
+        <ul>
+          <li>Check internet and firewall.</li>
+          <li>Use <code>/resethwid</code> in Discord once if you changed PCs.</li>
+          <li>Beta keys are one device per key.</li>
+        </ul>
+
+        <h2>Updates</h2>
+        <p>Use the launcher <strong>Blossom.exe</strong> — it checks GitHub for your channel. If an update fails, download manually from <a href="https://github.com/MaxxWasHere/blossom/releases">Releases</a>.</p>
+
+        <h2>More help</h2>
+        <p>Community Discord (link in repo README) or open a GitHub issue with Blossom version, Windows version, and what you already tried.</p>
+      </article>
+    </div>
+  </div>
+  <script src="/blossom.github.io/assets/js/site.js"></script>
+</body>
+</html>

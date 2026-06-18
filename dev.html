@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Release &amp; build — Blossom Docs</title>
+  <meta name="description" content="Developer notes for building and releasing Blossom.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sarpanch:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/blossom.github.io/assets/css/site.css">
+</head>
+<body data-page="dev">
+  <div class="doc-overlay" id="doc-overlay"></div>
+  <div class="doc-app">
+    <aside class="doc-sidebar" id="doc-sidebar" aria-label="Documentation navigation"></aside>
+    <div class="doc-main">
+      <header class="doc-topbar">
+        <button type="button" class="doc-menu-btn" id="doc-menu-btn" aria-label="Open menu">☰</button>
+        <span class="doc-topbar-title">Developers</span>
+      </header>
+      <article class="doc-content">
+        <h1>Release &amp; build</h1>
+        <p class="doc-lead">Maintainer notes for stable/beta builds, versioning, and GitHub releases.</p>
+
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th></th><th>Stable</th><th>Beta</th></tr></thead>
+            <tbody>
+              <tr><td>Repo</td><td><a href="https://github.com/MaxxWasHere/blossom">blossom</a></td><td><a href="https://github.com/MaxxWasHere/blossombeta">blossombeta</a></td></tr>
+              <tr><td>License</td><td>None</td><td>Key required</td></tr>
+              <tr><td>Launcher</td><td><code>Blossom.exe</code></td><td><code>Blossom-beta.exe</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Build</h2>
+        <p><strong>Prereqs:</strong> Python 3.14+, <code>pip install -r requirements.txt</code></p>
+        <div class="doc-code-wrap"><pre><code>py run_local_ui.py</code></pre></div>
+        <p><strong>Release exes</strong> (close running Blossom first):</p>
+        <div class="doc-code-wrap"><pre><code>py scripts\build_all.py all --stable-version 2.2.4 --beta-version 2.2.4-beta.1 -o dist\2.2.4 --bootstrap</code></pre></div>
+
+        <h2>Version bump</h2>
+        <p>Align <code>scripts/build_all.py</code>, <code>src/blossom_updater.py</code>, and <code>assets/noticetabcontents.txt</code> before tagging.</p>
+
+        <h2>More links</h2>
+        <ul>
+          <li><a href="https://github.com/MaxxWasHere/blossom/blob/main/license-server/README.md">License server README</a></li>
+          <li><a href="credits.html">Credits</a></li>
+        </ul>
+      </article>
+    </div>
+  </div>
+  <script src="/blossom.github.io/assets/js/site.js"></script>
+</body>
+</html>

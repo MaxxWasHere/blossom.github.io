@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Theming — Blossom Docs</title>
+  <meta name="description" content="Built-in themes and Custom UI CSS for Blossom.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sarpanch:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/blossom.github.io/assets/css/site.css">
+</head>
+<body data-page="theming">
+  <div class="doc-overlay" id="doc-overlay"></div>
+  <div class="doc-app">
+    <aside class="doc-sidebar" id="doc-sidebar" aria-label="Documentation navigation"></aside>
+    <div class="doc-main">
+      <header class="doc-topbar">
+        <button type="button" class="doc-menu-btn" id="doc-menu-btn" aria-label="Open menu">☰</button>
+        <span class="doc-topbar-title">Theming</span>
+      </header>
+      <article class="doc-content">
+        <h1>Theming</h1>
+        <p class="doc-lead">Blossom supports <strong>built-in themes</strong> and <strong>Custom UI</strong> (your own CSS).</p>
+
+        <h2>Built-in themes</h2>
+        <p><strong>Appearance</strong> tab → pick Pink, Dark, Light, OLED, Sakura, Midnight, Forest, etc. Choice is saved in config.</p>
+        <ul>
+          <li><strong>UI scale</strong> and <strong>window size</strong> (Small / Medium / Large / Custom)</li>
+          <li><strong>Reduce motion</strong> — disables heavy animations</li>
+          <li><strong>Always on top</strong> (Settings)</li>
+        </ul>
+
+        <h2>Custom UI (CSS)</h2>
+        <ol>
+          <li>Open <code>%LOCALAPPDATA%\Blossom\themes\</code></li>
+          <li>Copy <code>custom-ui.example.css</code> → <code>my-theme.css</code></li>
+          <li>Edit CSS (tokens and selectors — the example file is fully commented)</li>
+          <li><strong>Appearance</strong> → <strong>Custom UI</strong> → select your file → <strong>Refresh</strong></li>
+        </ol>
+
+        <h3>Rules</h3>
+        <ul>
+          <li><strong>CSS only</strong> — no HTML, no JavaScript, no <code>@import</code>, no remote <code>url()</code></li>
+          <li>Custom UI overrides built-in theme colors when active</li>
+          <li>Cannot add new tabs or macro features — styling only</li>
+        </ul>
+
+        <h3>Design tokens (common)</h3>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Token</th><th>Purpose</th></tr></thead>
+            <tbody>
+              <tr><td><code>--accent</code></td><td>Primary accent color</td></tr>
+              <tr><td><code>--bg-root</code>, <code>--bg-sidebar</code>, <code>--bg-card</code></td><td>Backgrounds</td></tr>
+              <tr><td><code>--text-primary</code>, <code>--text-secondary</code>, <code>--text-muted</code></td><td>Text</td></tr>
+              <tr><td><code>--border</code>, <code>--radius-md</code></td><td>Borders and corners</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Full list and DOM selectors: open <code>custom-ui.example.css</code> in your themes folder (created on first Custom UI use).</p>
+
+        <h3>HTML hints for advanced skins</h3>
+        <ul>
+          <li><code>html.blsm-custom-ui-active</code> — Custom UI is on</li>
+          <li><code>html.blsm-light-ui</code> — light palette hint</li>
+          <li><code>html.blsm-reduce-motion</code> — user disabled motion</li>
+        </ul>
+
+        <h2>Sharing themes</h2>
+        <p>Publish your <code>.css</code> on Discord or GitHub. Others drop it into their <code>themes</code> folder and select it in Appearance.</p>
+        <p>Font licenses: <a href="credits.html">Credits</a>.</p>
+      </article>
+    </div>
+  </div>
+  <script src="/blossom.github.io/assets/js/site.js"></script>
+</body>
+</html>
