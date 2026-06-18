@@ -40,12 +40,12 @@
 
         <h2>Local development</h2>
         <p><strong>Prerequisites:</strong> Python 3.14+, WebView2 runtime, <code>pip install -r requirements.txt</code></p>
-        <div class="doc-code-wrap"><pre><code>py run_local_ui.py</code></pre></div>
+        <div class="doc-code-wrap" data-lang="bash"><pre><code class="language-bash">py run_local_ui.py</code></pre></div>
         <p>Custom UI template lives in <code>src/blossom_custom_ui.py</code> (<code>ensure_sample_custom_ui_file()</code>). Appearance logic: <code>assets/blossom-appearance.js</code>. Built-in theme tokens: <code>assets/blossom-themes.css</code>.</p>
 
         <h2>Release build</h2>
         <p>Close running Blossom instances first. Output separates launchers (<code>launchers/</code>) from versioned payload exes (<code>app/</code>).</p>
-        <div class="doc-code-wrap"><pre><code>py scripts\build_all.py all --stable-version 2.2.4 --beta-version 2.2.4-beta.1 -o dist\2.2.4 --bootstrap</code></pre></div>
+        <div class="doc-code-wrap" data-lang="bash"><pre><code class="language-bash">py scripts\build_all.py all --stable-version 2.2.4 --beta-version 2.2.4-beta.1 -o dist\2.2.4 --bootstrap</code></pre></div>
 
         <h2>Version bump checklist</h2>
         <ol>

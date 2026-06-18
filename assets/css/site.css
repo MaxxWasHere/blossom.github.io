@@ -745,6 +745,34 @@ pre,
   font-family: var(--font-mono);
 }
 
+/* Inline code (not inside pre blocks) */
+.doc-content :not(pre) > code,
+.doc-table td code,
+.doc-table th code,
+.doc-callout code,
+.doc-tip code,
+.doc-warning code,
+.doc-card code,
+.doc-faq-item code,
+.doc-steps code {
+  font-family: var(--font-mono);
+  font-size: 0.84em;
+  font-weight: 450;
+  padding: 0.12em 0.42em;
+  border-radius: 5px;
+  white-space: nowrap;
+  color: var(--accent-text);
+  background: color-mix(in srgb, var(--accent) 9%, var(--bg-input));
+  border: 1px solid color-mix(in srgb, var(--border-accent) 55%, var(--border));
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.doc-content p code,
+.doc-content li code {
+  font-size: 0.875em;
+}
+
 .doc-code-wrap {
   position: relative;
   margin: 16px 0;
@@ -752,28 +780,57 @@ pre,
 
 .doc-code-wrap pre {
   margin: 0;
-  padding: 13px 14px;
-  padding-right: 48px;
+  padding: 32px 14px 13px;
+  padding-right: 72px;
   border-radius: var(--r-md);
   background: var(--bg-input);
   border: 1px solid var(--border);
   overflow-x: auto;
   font-size: 13px;
-  line-height: 1.5;
+  line-height: 1.55;
   color: var(--accent-text);
 }
 
+.doc-code-wrap pre code,
 .doc-code-wrap code {
   font-family: var(--font-mono);
+  font-size: inherit;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  white-space: pre;
+}
+
+.doc-lang-badge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  padding: 4px 10px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: color-mix(in srgb, var(--bg-card) 88%, transparent);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  border-radius: var(--r-md) 0 var(--r-sm) 0;
+  pointer-events: none;
+  user-select: none;
 }
 
 .doc-copy-btn {
   position: absolute;
   top: 8px;
   right: 8px;
+  z-index: 2;
   padding: 4px 10px;
   font-size: 11px;
   font-weight: 600;
+  font-family: var(--font-body);
   color: var(--text-muted);
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -790,6 +847,101 @@ pre,
 .doc-copy-btn.is-copied {
   color: var(--success);
   border-color: color-mix(in srgb, var(--success) 50%, var(--border));
+}
+
+/* Color swatches beside hex / rgba values */
+.doc-color-swatch {
+  display: inline-block;
+  width: 0.95em;
+  height: 0.95em;
+  margin-left: 0.3em;
+  margin-right: 0.1em;
+  vertical-align: -0.12em;
+  border-radius: 3px;
+  background: var(--swatch-color);
+  border: 1px solid color-mix(in srgb, var(--swatch-color) 70%, var(--border));
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 1px 2px rgba(0, 0, 0, 0.25);
+  flex-shrink: 0;
+}
+
+.doc-table td .doc-color-swatch {
+  width: 1.05em;
+  height: 1.05em;
+}
+
+.doc-code-wrap .doc-color-swatch {
+  width: 0.85em;
+  height: 0.85em;
+  vertical-align: -0.08em;
+}
+
+/* highlight.js — Blossom midnight palette */
+.doc-code-wrap .hljs {
+  display: block;
+  overflow-x: auto;
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.doc-code-wrap .hljs-comment,
+.doc-code-wrap .hljs-quote {
+  color: #6e6468;
+  font-style: italic;
+}
+
+.doc-code-wrap .hljs-keyword,
+.doc-code-wrap .hljs-selector-tag,
+.doc-code-wrap .hljs-built_in {
+  color: #e891a8;
+}
+
+.doc-code-wrap .hljs-string,
+.doc-code-wrap .hljs-attr,
+.doc-code-wrap .hljs-attribute {
+  color: #86efac;
+}
+
+.doc-code-wrap .hljs-number,
+.doc-code-wrap .hljs-literal {
+  color: #fbbf24;
+}
+
+.doc-code-wrap .hljs-title,
+.doc-code-wrap .hljs-section,
+.doc-code-wrap .hljs-name {
+  color: #93c5fd;
+}
+
+.doc-code-wrap .hljs-variable,
+.doc-code-wrap .hljs-template-variable,
+.doc-code-wrap .hljs-property {
+  color: #c4b5fd;
+}
+
+.doc-code-wrap .hljs-selector-class,
+.doc-code-wrap .hljs-selector-id,
+.doc-code-wrap .hljs-selector-pseudo {
+  color: #f5c6d4;
+}
+
+.doc-code-wrap .hljs-regexp,
+.doc-code-wrap .hljs-link {
+  color: #4cbd87;
+}
+
+.doc-code-wrap .hljs-meta,
+.doc-code-wrap .hljs-subst {
+  color: var(--text-muted);
+}
+
+.doc-code-wrap .hljs-emphasis {
+  font-style: italic;
+}
+
+.doc-code-wrap .hljs-strong {
+  font-weight: 700;
 }
 
 /* ——— Buttons / pills ——— */
@@ -896,6 +1048,7 @@ pre,
 .doc-table th code {
   font-family: var(--font-mono);
   font-size: 12px;
+  white-space: normal;
 }
 
 .doc-table .selector-col {

@@ -121,16 +121,174 @@
     sidebar.querySelectorAll("a").forEach((a) => a.addEventListener("click", close));
   }
 
-  function initCopyButtons() {
+  const HLJS_BASE =
+    "https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build";
+  const HLJS_LANGS = ["css", "javascript", "bash", "json"];
+
+  const HEX_COLOR =
+    /#(?:[0-9a-fA-F]{6}|[0-9a-fA-F]{3}|[0-9a-fA-F]{8})\b(?![\w-])/gi;
+  const RGBA_COLOR =
+    /\brgba?\(\s*[\d.]+\s*,\s*[\d.]+\s*,\s*[\d.]+(?:\s*,\s*[\d.]+\s*)?\)/gi;
+
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      const existing = document.querySelector(`script[src="${src}"]`);
+      if (existing) {
+        if (existing.dataset.loaded === "1") resolve();
+        else existing.addEventListener("load", () => resolve(), { once: true });
+        return;
+      }
+      const script = document.createElement("script");
+      script.src = src;
+      script.defer = true;
+      script.onload = () => {
+        script.dataset.loaded = "1";
+        resolve();
+      };
+      script.onerror = () => reject(new Error(`Failed to load ${src}`));
+      document.head.appendChild(script);
+    });
+  }
+
+  function loadHighlightJs() {
+    if (window.hljs?.highlightElement) return Promise.resolve();
+    return loadScript(`${HLJS_BASE}/highlight.min.js`).then(async () => {
+      await Promise.all(
+        HLJS_LANGS.map((lang) => loadScript(`${HLJS_BASE}/languages/${lang}.min.js`))
+      );
+    });
+  }
+
+  function detectLanguage(text, wrap) {
+    const fromWrap = wrap?.dataset?.lang;
+    if (fromWrap) return fromWrap.toLowerCase();
+
+    const sample = String(text || "").trim();
+    if (/^(body|html|:root|\.\w|\/\*|@)/m.test(sample) || /--[\w-]+\s*:/.test(sample)) {
+      return "css";
+    }
+    if (/^(import |export |const |let |var |function )/.test(sample)) return "javascript";
+    if (/^[\[{]/.test(sample) && /"\w+"\s*:/.test(sample)) return "json";
+    if (/^(py |pip |npm |git |cd )/.test(sample) || /\\/.test(sample)) return "bash";
+    return "plaintext";
+  }
+
+  function langLabel(lang) {
+    const labels = {
+      css: "CSS",
+      javascript: "JavaScript",
+      bash: "Shell",
+      json: "JSON",
+      plaintext: "Code",
+    };
+    return labels[lang] || lang.toUpperCase();
+  }
+
+  function initCodeBlocks() {
     document.querySelectorAll(".doc-code-wrap").forEach((wrap) => {
       const pre = wrap.querySelector("pre");
+      const code = wrap.querySelector("code");
+      if (!pre || !code) return;
+
+      const lang = detectLanguage(code.textContent, wrap);
+      if (!wrap.dataset.lang) wrap.dataset.lang = lang;
+      if (!code.className.includes("language-")) {
+        code.className = `language-${lang}`;
+      }
+    });
+  }
+
+  function initSyntaxHighlighting() {
+    if (!window.hljs) return;
+    document.querySelectorAll(".doc-code-wrap pre code").forEach((block) => {
+      window.hljs.highlightElement(block);
+    });
+  }
+
+  function createColorSwatch(color) {
+    const swatch = document.createElement("span");
+    swatch.className = "doc-color-swatch";
+    swatch.style.setProperty("--swatch-color", color);
+    swatch.setAttribute("role", "img");
+    swatch.setAttribute("aria-label", `Color preview ${color}`);
+    swatch.title = color;
+    return swatch;
+  }
+
+  function shouldSkipColorNode(node) {
+    const el = node.parentElement;
+    if (!el) return true;
+    if (el.closest(".doc-color-swatch, script, style, .doc-lang-badge")) return true;
+    if (el.closest(".selector-col")) return true;
+    if (el.closest("a[href^='#']")) return true;
+    return false;
+  }
+
+  function injectSwatchesIntoTextNode(textNode) {
+    if (shouldSkipColorNode(textNode)) return;
+
+    const text = textNode.textContent;
+    const pattern = new RegExp(
+      `${HEX_COLOR.source}|${RGBA_COLOR.source}`,
+      "gi"
+    );
+    if (!pattern.test(text)) return;
+
+    pattern.lastIndex = 0;
+    const frag = document.createDocumentFragment();
+    let lastIndex = 0;
+    let match;
+
+    while ((match = pattern.exec(text)) !== null) {
+      if (match.index > lastIndex) {
+        frag.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
+      }
+      const color = match[0];
+      frag.appendChild(document.createTextNode(color));
+      frag.appendChild(createColorSwatch(color));
+      lastIndex = pattern.lastIndex;
+    }
+
+    if (lastIndex < text.length) {
+      frag.appendChild(document.createTextNode(text.slice(lastIndex)));
+    }
+
+    textNode.parentNode.replaceChild(frag, textNode);
+  }
+
+  function initColorSwatches() {
+    const root = document.querySelector(".doc-content");
+    if (!root) return;
+
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+
+    nodes.forEach(injectSwatchesIntoTextNode);
+  }
+
+  function initCopyButtons() {
+    document.querySelectorAll(".doc-code-wrap").forEach((wrap) => {
+      if (wrap.querySelector(".doc-copy-btn")) return;
+
+      const pre = wrap.querySelector("pre");
+      const code = wrap.querySelector("code");
       if (!pre) return;
+
+      const lang = wrap.dataset.lang || "code";
+      if (!wrap.querySelector(".doc-lang-badge")) {
+        const badge = document.createElement("span");
+        badge.className = "doc-lang-badge";
+        badge.textContent = langLabel(lang);
+        wrap.appendChild(badge);
+      }
+
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "doc-copy-btn";
       btn.textContent = "Copy";
       btn.addEventListener("click", async () => {
-        const text = pre.textContent || "";
+        const text = code?.textContent || pre.textContent || "";
         try {
           await navigator.clipboard.writeText(text);
           btn.textContent = "Copied";
@@ -253,11 +411,25 @@
     headings.forEach((h) => observer.observe(h));
   }
 
+  function initCodeEnhancements() {
+    initCodeBlocks();
+    loadHighlightJs()
+      .then(() => {
+        initSyntaxHighlighting();
+        initColorSwatches();
+        initCopyButtons();
+      })
+      .catch(() => {
+        initColorSwatches();
+        initCopyButtons();
+      });
+  }
+
   function init() {
     initSidebar();
     initHeadingAnchors();
     initToc();
-    initCopyButtons();
+    initCodeEnhancements();
   }
 
   if (document.readyState === "loading") {
