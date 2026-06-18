@@ -84,7 +84,7 @@
         <img src="${LOGO}" alt="Blossom" width="40" height="40" />
         <div class="doc-brand-text">
           <h1>Blossom</h1>
-          <span>Sol's RNG macro — your guide</span>
+          <span>Documentation</span>
         </div>
       </a>
       ${sections}

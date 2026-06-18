@@ -182,6 +182,10 @@ a:hover {
   filter: drop-shadow(0 0 12px var(--accent-glow));
 }
 
+.doc-brand-text {
+  min-width: 0;
+}
+
 .doc-brand-text h1 {
   margin: 0;
   font-family: var(--font-display);
@@ -196,16 +200,15 @@ a:hover {
 }
 
 .doc-brand-text span {
-  display: inline-block;
-  margin-top: 6px;
-  padding: 2px 8px;
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  color: var(--accent-text);
-  background: var(--blsm-accent-faint);
-  border: 1px solid var(--blsm-accent-soft);
-  border-radius: 999px;
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .doc-nav-section {
