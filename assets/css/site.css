@@ -1,18 +1,23 @@
-/* Blossom docs — sakura dark theme (matches in-app tokens) */
+/* Blossom docs — midnight theme + revamp shape layer (matches shipped macro UI) */
 
 :root {
-  --bg-root: #0c090a;
-  --bg-sidebar: #120d0f;
-  --bg-main: #0f0a0c;
-  --bg-card: #181216;
-  --bg-card-hover: #1e171b;
-  --bg-input: #141012;
+  /* Palette — midnight / pink-dark (blossom_custom_ui.py §1, index.html data-theme=midnight) */
+  --bg-root: #0a0809;
+  --bg-sidebar: #100c0e;
+  --bg-main: #0d090b;
+  --bg-card: #161014;
+  --bg-card-hover: #1c1519;
+  --bg-input: #120e10;
+  --bg-input-focus: #1a1418;
   --accent: #e891a8;
   --accent-dim: #c46d88;
   --accent-glow: rgba(232, 145, 168, 0.15);
   --accent-text: #f5c6d4;
+  --text-on-accent: #ffffff;
   --success: #22c55e;
+  --success-dim: #16a34a;
   --danger: #ef4444;
+  --danger-dim: #dc2626;
   --warning: #f59e0b;
   --text-primary: #ece8ea;
   --text-secondary: #a8a0a4;
@@ -20,17 +25,34 @@
   --border: #241a1e;
   --border-hover: #32242a;
   --border-accent: rgba(232, 145, 168, 0.3);
-  --radius-sm: 0;
-  --radius-md: 0;
-  --radius-lg: 0;
-  --corner-color: rgba(232, 145, 168, 1);
-  --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.3);
+  --border-color: var(--border);
+  --card-bg: var(--bg-card);
+  --bg-secondary: var(--bg-card);
+
+  /* Shape — revamp layer wins over theme zero radii (blossom-revamp.css) */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 20px;
+  --radius-sm: var(--r-sm);
+  --radius-md: var(--r-md);
+  --radius-lg: var(--r-lg);
+  --radius-xl: var(--r-xl);
+
+  /* Revamp depth helpers */
+  --blsm-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --blsm-accent-soft: color-mix(in srgb, var(--accent) 22%, transparent);
+  --blsm-accent-faint: color-mix(in srgb, var(--accent) 10%, transparent);
+
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 6px 18px rgba(0, 0, 0, 0.28);
   --shadow-glow: 0 0 20px rgba(232, 145, 168, 0.08);
   --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  --sidebar-w: 260px;
+
+  /* Layout rhythm — blossom-revamp.css + blossom-layout.css */
+  --sidebar-w: 212px;
   --header-h: 56px;
-  --font-display: "Sarpanch", system-ui, sans-serif;
-  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: Sarpanch, Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -41,6 +63,13 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .doc-card:hover,
+  .doc-faq-item:hover,
+  .doc-nav-list a:hover,
+  .doc-btn:hover {
+    transform: none !important;
   }
 }
 
@@ -71,26 +100,23 @@ body::before {
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(900px 520px at 88% -8%, rgba(232, 145, 168, 0.11), transparent 60%),
-    radial-gradient(700px 480px at -6% 108%, rgba(232, 145, 168, 0.07), transparent 60%),
-    radial-gradient(500px 400px at 50% 100%, rgba(180, 120, 140, 0.05), transparent 70%),
-    linear-gradient(165deg, rgba(232, 145, 168, 0.03) 0%, transparent 42%, rgba(120, 80, 100, 0.02) 100%);
+    radial-gradient(900px 520px at 88% -8%, var(--blsm-accent-faint), transparent 60%),
+    radial-gradient(700px 480px at -6% 108%, color-mix(in srgb, var(--accent) 7%, transparent), transparent 60%),
+    var(--bg-main);
 }
 
-/* Subtle sakura petal warmth — static, no animation */
+/* Subtle petal warmth — static, no animation */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.55;
+  opacity: 0.4;
   background-image:
-    radial-gradient(ellipse 6px 4px at 12% 18%, rgba(245, 198, 212, 0.22), transparent),
-    radial-gradient(ellipse 5px 3px at 78% 12%, rgba(232, 145, 168, 0.16), transparent),
-    radial-gradient(ellipse 7px 4px at 92% 62%, rgba(245, 198, 212, 0.14), transparent),
-    radial-gradient(ellipse 5px 3px at 8% 72%, rgba(232, 145, 168, 0.12), transparent),
-    radial-gradient(ellipse 6px 4px at 44% 88%, rgba(245, 198, 212, 0.1), transparent);
+    radial-gradient(ellipse 6px 4px at 12% 18%, rgba(245, 198, 212, 0.18), transparent),
+    radial-gradient(ellipse 5px 3px at 78% 12%, rgba(232, 145, 168, 0.12), transparent),
+    radial-gradient(ellipse 7px 4px at 92% 62%, rgba(245, 198, 212, 0.1), transparent);
 }
 
 a {
@@ -132,15 +158,15 @@ a:hover {
   flex-direction: column;
   height: 100%;
   overflow-y: auto;
-  padding: 20px 16px 24px;
+  padding: 0;
 }
 
 .doc-brand {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding-bottom: 16px;
-  margin-bottom: 8px;
+  padding: 14px 14px 12px;
+  margin-bottom: 0;
   border-bottom: 1px solid var(--border);
   text-decoration: none;
 }
@@ -159,7 +185,7 @@ a:hover {
 .doc-brand-text h1 {
   margin: 0;
   font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-size: 18px;
   font-weight: 800;
   letter-spacing: 0.02em;
   background: linear-gradient(92deg, var(--accent-text), var(--accent));
@@ -170,25 +196,32 @@ a:hover {
 }
 
 .doc-brand-text span {
-  display: block;
-  font-size: 11px;
-  color: var(--text-muted);
-  font-weight: 500;
-  margin-top: 2px;
+  display: inline-block;
+  margin-top: 6px;
+  padding: 2px 8px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--accent-text);
+  background: var(--blsm-accent-faint);
+  border: 1px solid var(--blsm-accent-soft);
+  border-radius: 999px;
 }
 
 .doc-nav-section {
-  margin-top: 18px;
+  margin-top: 0;
+  padding: 0 7px;
 }
 
 .doc-nav-section:first-of-type {
-  margin-top: 4px;
+  margin-top: 7px;
 }
 
 .doc-nav-label {
-  margin: 0 0 8px 10px;
-  font-size: 10px;
-  font-weight: 700;
+  margin: 0;
+  padding: 11px 10px 5px;
+  font-size: 9.5px;
+  font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--text-muted);
@@ -205,28 +238,47 @@ a:hover {
 }
 
 .doc-nav-list a {
+  position: relative;
   display: block;
-  padding: 8px 12px;
-  border-radius: var(--radius-md);
+  padding: 7px 10px;
+  border-radius: var(--r-sm);
   color: var(--text-secondary);
-  font-size: 13.5px;
-  font-weight: 500;
+  font-size: 12.5px;
+  font-weight: 600;
   text-decoration: none;
   border: 1px solid transparent;
-  transition: background var(--transition), color var(--transition), border-color var(--transition);
+  transition: color 0.15s ease, background 0.18s ease, transform 0.14s var(--blsm-ease);
+}
+
+.doc-nav-list a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 3px;
+  height: 0;
+  border-radius: 0 4px 4px 0;
+  background: linear-gradient(180deg, var(--accent-text), var(--accent));
+  transform: translateY(-50%);
+  transition: height 0.2s var(--blsm-ease);
 }
 
 .doc-nav-list a:hover {
   color: var(--text-primary);
-  background: var(--bg-card-hover);
+  background: var(--blsm-accent-faint);
+  transform: translateX(3px);
   text-decoration: none;
 }
 
 .doc-nav-list a.is-active {
   color: var(--accent-text);
-  background: color-mix(in srgb, var(--accent) 12%, var(--bg-card));
-  border-color: var(--border-accent);
-  box-shadow: var(--shadow-glow);
+  background: linear-gradient(92deg, var(--blsm-accent-soft), var(--blsm-accent-faint));
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.doc-nav-list a.is-active::before {
+  height: 56%;
 }
 
 .doc-credits-hero-inner {
@@ -253,7 +305,7 @@ a:hover {
 
 .doc-sidebar-footer {
   margin-top: auto;
-  padding-top: 16px;
+  padding: 10px 14px;
   font-size: 11px;
   color: var(--text-muted);
   border-top: 1px solid var(--border);
@@ -293,6 +345,7 @@ a:hover {
   height: 40px;
   padding: 0;
   border: 1px solid var(--border);
+  border-radius: var(--r-sm);
   background: var(--bg-card);
   color: var(--text-primary);
   cursor: pointer;
@@ -313,7 +366,7 @@ a:hover {
 
 .doc-content {
   max-width: 760px;
-  padding: 48px 40px 80px;
+  padding: 16px 18px 48px;
   margin: 0 auto;
 }
 
@@ -335,9 +388,12 @@ a:hover {
   top: 24px;
   max-height: calc(100vh - 48px);
   overflow-y: auto;
-  padding: 16px 14px;
-  background: color-mix(in srgb, var(--bg-card) 88%, var(--bg-sidebar));
+  padding: 13px 14px;
+  border-radius: var(--r-lg);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--accent) 4%, var(--bg-card)), var(--bg-card));
   border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
   font-size: 12.5px;
   line-height: 1.45;
 }
@@ -407,14 +463,17 @@ a:hover {
 }
 
 .doc-section-intro {
-  margin: 0 0 16px;
-  padding: 14px 16px;
-  font-size: 15px;
+  margin: 0 0 12px;
+  padding: 13px 14px;
+  border-radius: var(--r-lg);
+  font-size: 14px;
   line-height: 1.65;
   color: var(--text-secondary);
-  background: color-mix(in srgb, var(--accent) 5%, var(--bg-card));
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--accent) 4%, var(--bg-card)), var(--bg-card));
   border: 1px solid var(--border);
   border-left: 3px solid color-mix(in srgb, var(--accent) 55%, var(--border));
+  box-shadow: var(--shadow-card);
 }
 
 .doc-section-intro p:last-child {
@@ -433,15 +492,27 @@ a:hover {
 
 .doc-content h2 {
   font-family: var(--font-display);
-  font-size: 1.35rem;
-  font-weight: 700;
-  margin: 40px 0 14px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
-  color: var(--accent-text);
+  font-size: 19px;
+  font-weight: 800;
+  margin: 40px 0 12px;
+  padding-bottom: 6px;
+  border-bottom: none;
+  color: var(--text-primary);
   display: flex;
   align-items: baseline;
   gap: 8px;
+  position: relative;
+}
+
+.doc-content h2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 34px;
+  height: 2px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--accent), transparent);
 }
 
 .doc-content h3 {
@@ -509,17 +580,25 @@ a:hover {
 /* ——— Cards ——— */
 .doc-card {
   position: relative;
-  background: var(--bg-card);
+  border-radius: var(--r-lg);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--accent) 4%, var(--bg-card)), var(--bg-card));
   border: 1px solid var(--border);
-  padding: 20px 22px;
-  margin: 20px 0;
+  padding: 13px 14px;
+  margin: 10px 0;
   box-shadow: var(--shadow-card);
-  transition: border-color var(--transition), box-shadow var(--transition);
+  transition: transform 0.18s var(--blsm-ease), border-color 0.18s ease, box-shadow 0.2s ease;
 }
 
 .doc-card:hover {
-  border-color: var(--border-hover);
-  box-shadow: var(--shadow-card), var(--shadow-glow);
+  transform: translateY(-3px);
+  border-color: var(--blsm-accent-soft);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.38);
+}
+
+/* Legacy corner brackets — only when .cornered is explicitly set */
+.doc-card.cornered {
+  border-radius: 0;
 }
 
 .doc-card.cornered::before,
@@ -530,7 +609,7 @@ a:hover {
   position: absolute;
   width: 12px;
   height: 12px;
-  border-color: var(--corner-color);
+  border-color: var(--accent);
   border-style: solid;
   pointer-events: none;
 }
@@ -580,8 +659,9 @@ a:hover {
 /* ——— Tables ——— */
 .doc-table-wrap {
   overflow-x: auto;
-  margin: 20px 0;
+  margin: 10px 0;
   border: 1px solid var(--border);
+  border-radius: var(--r-lg);
 }
 
 table.doc-table {
@@ -631,14 +711,18 @@ table.doc-table {
 }
 
 .doc-faq-item {
-  padding: 16px 18px;
-  background: var(--bg-card);
+  padding: 13px 14px;
+  border-radius: var(--r-lg);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--accent) 4%, var(--bg-card)), var(--bg-card));
   border: 1px solid var(--border);
-  transition: border-color var(--transition);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.18s var(--blsm-ease), border-color 0.18s ease;
 }
 
 .doc-faq-item:hover {
-  border-color: var(--border-hover);
+  border-color: var(--blsm-accent-soft);
+  transform: translateY(-2px);
 }
 
 .doc-faq-item h3 {
@@ -661,10 +745,13 @@ table.doc-table {
 
 .doc-steps li {
   position: relative;
-  margin: 0 0 14px;
-  padding: 14px 16px 14px 52px;
-  background: var(--bg-card);
+  margin: 0 0 10px;
+  padding: 13px 14px 13px 52px;
+  border-radius: var(--r-lg);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--accent) 4%, var(--bg-card)), var(--bg-card));
   border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
   color: var(--text-secondary);
 }
 
@@ -673,7 +760,7 @@ table.doc-table {
   content: counter(doc-step);
   position: absolute;
   left: 14px;
-  top: 14px;
+  top: 13px;
   width: 26px;
   height: 26px;
   display: flex;
@@ -682,8 +769,9 @@ table.doc-table {
   font-size: 12px;
   font-weight: 700;
   color: var(--accent-text);
-  background: color-mix(in srgb, var(--accent) 18%, var(--bg-input));
-  border: 1px solid var(--border-accent);
+  background: var(--blsm-accent-faint);
+  border: 1px solid var(--blsm-accent-soft);
+  border-radius: var(--r-sm);
 }
 
 .doc-toc {
@@ -709,8 +797,9 @@ table.doc-table {
 
 .doc-code-wrap pre {
   margin: 0;
-  padding: 14px 16px;
+  padding: 13px 14px;
   padding-right: 48px;
+  border-radius: var(--r-md);
   background: var(--bg-input);
   border: 1px solid var(--border);
   overflow-x: auto;
@@ -733,6 +822,7 @@ table.doc-table {
   color: var(--text-muted);
   background: var(--bg-card);
   border: 1px solid var(--border);
+  border-radius: var(--r-sm);
   cursor: pointer;
   transition: color var(--transition), border-color var(--transition);
 }
@@ -759,53 +849,64 @@ table.doc-table {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 18px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--bg-root);
-  background: linear-gradient(135deg, var(--accent-text), var(--accent));
-  border: 1px solid var(--border-accent);
+  min-height: 30px;
+  padding: 6px 13px;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--text-on-accent);
+  background: linear-gradient(180deg, var(--accent), var(--accent-dim));
+  border: 1px solid var(--blsm-accent-soft);
+  border-radius: var(--r-sm);
   text-decoration: none;
-  transition: transform var(--transition), box-shadow var(--transition);
+  box-shadow: 0 6px 16px var(--blsm-accent-soft);
+  transition: transform 0.12s var(--blsm-ease), box-shadow 0.16s ease, filter 0.16s ease;
 }
 
 .doc-btn:hover {
   text-decoration: none;
-  color: var(--bg-root);
+  color: var(--text-on-accent);
   transform: translateY(-1px);
-  box-shadow: 0 4px 20px var(--accent-glow);
+  filter: brightness(1.06);
 }
 
 .doc-btn-ghost {
-  background: transparent;
-  color: var(--accent-text);
+  background: var(--bg-card);
+  color: var(--text-secondary);
   border-color: var(--border);
+  box-shadow: none;
 }
 
 .doc-btn-ghost:hover {
-  color: var(--accent-text);
+  color: var(--text-primary);
   background: var(--bg-card-hover);
+  border-color: var(--blsm-accent-soft);
+  filter: none;
 }
 
 .doc-pill {
   display: inline-block;
   padding: 2px 8px;
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 0.04em;
   color: var(--accent-text);
-  background: color-mix(in srgb, var(--accent) 15%, var(--bg-card));
-  border: 1px solid var(--border-accent);
+  background: var(--blsm-accent-faint);
+  border: 1px solid var(--blsm-accent-soft);
+  border-radius: 999px;
 }
 
 /* ——— Callouts ——— */
 .doc-callout,
 .doc-tip,
 .doc-warning {
-  margin: 20px 0;
-  padding: 14px 16px 14px 18px;
+  margin: 10px 0;
+  padding: 13px 14px 13px 16px;
+  border-radius: var(--r-lg);
   border: 1px solid var(--border);
-  background: color-mix(in srgb, var(--bg-card) 92%, var(--bg-sidebar));
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--accent) 4%, var(--bg-card)), var(--bg-card));
+  box-shadow: var(--shadow-card);
   font-size: 14px;
   line-height: 1.6;
   color: var(--text-secondary);
@@ -862,6 +963,36 @@ table.doc-table {
   z-index: 99;
 }
 
+/* ——— Scrollbars (matches blossom-revamp.css) ——— */
+.doc-sidebar-inner::-webkit-scrollbar,
+.doc-toc::-webkit-scrollbar,
+.doc-content::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.doc-sidebar-inner::-webkit-scrollbar-track,
+.doc-toc::-webkit-scrollbar-track,
+.doc-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.doc-sidebar-inner::-webkit-scrollbar-thumb,
+.doc-toc::-webkit-scrollbar-thumb,
+.doc-content::-webkit-scrollbar-thumb {
+  background: var(--border-hover);
+  border: 3px solid transparent;
+  background-clip: padding-box;
+  border-radius: 999px;
+}
+
+.doc-sidebar-inner::-webkit-scrollbar-thumb:hover,
+.doc-toc::-webkit-scrollbar-thumb:hover,
+.doc-content::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-dim);
+  background-clip: padding-box;
+}
+
 @media (max-width: 900px) {
   .doc-sidebar {
     transform: translateX(-100%);
@@ -884,7 +1015,7 @@ table.doc-table {
   }
 
   .doc-content {
-    padding: 28px 20px 60px;
+    padding: 16px 18px 40px;
   }
 
   .doc-content h1 {
