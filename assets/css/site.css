@@ -335,12 +335,7 @@ a:hover {
 }
 
 .doc-content.doc-has-toc {
-  max-width: none;
-  display: grid;
-  grid-template-columns: minmax(0, 760px) 200px;
-  gap: 40px;
-  align-items: start;
-  padding-right: 32px;
+  max-width: 760px;
 }
 
 .doc-article-main {
@@ -348,16 +343,18 @@ a:hover {
 }
 
 .doc-toc {
-  position: sticky;
-  top: 24px;
+  width: 210px;
   max-height: calc(100vh - 48px);
   overflow-y: auto;
-  padding: 12px 14px;
+  padding: 12px 14px 12px 16px;
   border-radius: var(--r-md);
   background: var(--bg-card);
   border: 1px solid var(--border);
-  font-size: 12.5px;
+  border-left: 2px solid color-mix(in srgb, var(--accent) 55%, var(--border));
+  font-size: 12.75px;
   line-height: 1.45;
+  text-align: left;
+  z-index: 40;
 }
 
 .doc-toc-title {
@@ -723,18 +720,21 @@ table.doc-table {
   border-radius: var(--r-sm);
 }
 
-.doc-toc {
-  max-height: calc(100vh - 48px);
+@media (min-width: 901px) and (max-width: 1199px) {
+  .doc-toc {
+    position: static;
+    width: 100%;
+    max-width: none;
+    margin-top: 32px;
+  }
 }
 
-@media (min-width: 901px) {
+@media (min-width: 1200px) {
   .doc-toc {
+    position: fixed;
+    top: 24px;
+    right: 24px;
     width: 210px;
-    font-size: 12.75px;
-  }
-
-  .doc-content.doc-has-toc {
-    grid-template-columns: minmax(0, 780px) 210px;
   }
 }
 
@@ -1124,11 +1124,6 @@ pre,
 
   .doc-content h1 {
     font-size: 1.75rem;
-  }
-
-  .doc-content.doc-has-toc {
-    display: block;
-    padding-right: 20px;
   }
 
   .doc-toc {
