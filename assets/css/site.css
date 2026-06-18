@@ -1,5 +1,13 @@
 /* Blossom docs — midnight theme + revamp shape layer (matches shipped macro UI) */
 
+@font-face {
+  font-family: "JetBrainsMono Nerd Font";
+  src: url("https://cdn.jsdelivr.net/gh/ryanoasis/nerd-fonts@master/patched-fonts/JetBrainsMono/Ligatures/complete/JetBrains%20Mono%20Regular%20Nerd%20Font%20Complete.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* Palette — midnight / pink-dark (blossom_custom_ui.py §1, index.html data-theme=midnight) */
   --bg-root: #0a0809;
@@ -53,6 +61,7 @@
   --header-h: 56px;
   --font-display: "Google Sans Flex", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-body: "Google Sans Flex", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrainsMono Nerd Font", "JetBrains Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -173,7 +182,11 @@ a:hover {
   font-size: 17px;
   font-weight: 600;
   letter-spacing: -0.01em;
-  color: var(--text-primary);
+  background: linear-gradient(92deg, var(--accent-text), var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .doc-nav-section {
@@ -400,7 +413,11 @@ a:hover {
   line-height: 1.2;
   margin: 0 0 12px;
   letter-spacing: -0.02em;
-  color: var(--text-primary);
+  background: linear-gradient(92deg, var(--accent-text), var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .doc-lead {
@@ -456,6 +473,7 @@ a:hover {
 }
 
 .doc-content h3 {
+  font-family: var(--font-display);
   font-size: 1rem;
   font-weight: 600;
   margin: 24px 0 10px;
@@ -721,6 +739,12 @@ table.doc-table {
 }
 
 /* ——— Code ——— */
+code,
+pre,
+.doc-code-wrap {
+  font-family: var(--font-mono);
+}
+
 .doc-code-wrap {
   position: relative;
   margin: 16px 0;
@@ -740,7 +764,7 @@ table.doc-table {
 }
 
 .doc-code-wrap code {
-  font-family: "Cascadia Code", "Consolas", monospace;
+  font-family: var(--font-mono);
 }
 
 .doc-copy-btn {
@@ -870,11 +894,12 @@ table.doc-table {
 
 .doc-table td code,
 .doc-table th code {
+  font-family: var(--font-mono);
   font-size: 12px;
 }
 
 .doc-table .selector-col {
-  font-family: "Cascadia Code", "Consolas", monospace;
+  font-family: var(--font-mono);
   font-size: 12.5px;
   color: var(--accent-text);
   white-space: nowrap;
